@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace RISE.ReportDetailApi.Models
+namespace RISE.Shared.Models
 {
     public class ResponseDataModel : IDisposable
     {

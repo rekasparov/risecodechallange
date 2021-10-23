@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RISE.BusinessLayer.Abstract;
-using RISE.ReportApi.Models;
+using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
 using RISE.PersonContactApi.Models;
+using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

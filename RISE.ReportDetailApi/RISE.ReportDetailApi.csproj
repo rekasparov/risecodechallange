@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit" Version="7.2.3" />
+    <PackageReference Include="MassTransit.AspNetCore" Version="7.2.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\RISE.BusinessLayer\RISE.BusinessLayer.csproj" />
+    <ProjectReference Include="..\RISE.Shared\RISE.Shared.csproj" />
   </ItemGroup>
 
 </Project>
