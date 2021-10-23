@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RISE.BusinessLayer\RISE.BusinessLayer.csproj" />
+    <ProjectReference Include="..\RISE.Shared\RISE.Shared.csproj" />
   </ItemGroup>
 
 </Project>
