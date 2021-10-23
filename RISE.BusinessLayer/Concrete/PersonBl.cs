@@ -28,13 +28,7 @@ namespace RISE.BusinessLayer.Concrete
                     UUID = Guid.NewGuid(),
                     Name = model.Name,
                     Surname = model.Surname,
-                    Company = model.Company,
-                    PersonContacts = model.PersonContacts.Select(x => new PersonContact
-                    {
-                        PhoneNumber = x.PhoneNumber,
-                        EmailAddress = x.EmailAddress,
-                        Location = x.Location
-                    }).ToList()
+                    Company = model.Company
                 };
 
                 unitOfWork.Person.Insert(person);
@@ -55,7 +49,6 @@ namespace RISE.BusinessLayer.Concrete
             {
                 Person person = await unitOfWork.Person
                     .Select(x => x.UUID == model.UUID)
-                    .Include(x => x.PersonContacts)
                     .FirstOrDefaultAsync();
 
                 if (person != null) unitOfWork.Person.Delete(person);
