@@ -31,14 +31,6 @@ namespace RISE.BusinessLayer.Concrete
                     Status = false
                 };
 
-                foreach (var reportDetail in model.ReportDetails)
-                {
-                    report.ReportDetails.Add(new ReportDetail
-                    {
-                        Location = reportDetail.Location
-                    });
-                }
-
                 unitOfWork.Report.Insert(report);
 
                 await unitOfWork.CommitAsync();
@@ -51,9 +43,27 @@ namespace RISE.BusinessLayer.Concrete
             }
         }
 
-        public Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize)
+        public async Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await unitOfWork.Report.Select()
+                    .Select(x => new ReportDto
+                    {
+                        UUID = x.UUID,
+                        RequestDate = x.RequestDate,
+                        Status = x.Status
+                    })
+                    .Skip(pageIndex * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+            }
+            catch
+            {
+                await unitOfWork.RollBackAsync();
+
+                throw;
+            }
         }
     }
 }

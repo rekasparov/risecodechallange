@@ -42,6 +42,8 @@ namespace RISE.UnitOfWork.Concrete
 
         public IReportDal Report => new ReportDal(dbContext);
 
+        public IReportDetailDal ReportDetail => new ReportDetailDal(dbContext);
+
         public async Task<int> CommitAsync()
         {
             try

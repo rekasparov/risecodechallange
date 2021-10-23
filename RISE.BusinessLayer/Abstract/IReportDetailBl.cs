@@ -9,6 +9,6 @@ namespace RISE.BusinessLayer.Abstract
 {
     public interface IReportDetailBl
     {
-        Task<List<ReportDetailDto>> GetReportDetailsByReportUUID();
+        Task<ReportDetailDto> GetReportDetailByReportUUID(Guid reportId);
     }
 }
