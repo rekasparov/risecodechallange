@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,16 @@ namespace RISE.PersonApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMassTransit(x =>
+            {
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(Configuration.GetConnectionString("RabbitMQ"));
+                });
+            });
+
+            services.AddMassTransitHostedService();
+
             services.AddSingleton(typeof(IPersonBl), typeof(PersonBl));
 
             services.AddCors();

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
 using RISE.PersonApi.Models;
+using RISE.Shared.Events;
 using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -16,10 +18,12 @@ namespace RISE.PersonApi.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonBl personBl;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public PersonController(IPersonBl personBl)
+        public PersonController(IPersonBl personBl, IPublishEndpoint publishEndpoint)
         {
             this.personBl = personBl;
+            this.publishEndpoint = publishEndpoint;
         }
 
         [HttpPost]
@@ -30,12 +34,25 @@ namespace RISE.PersonApi.Controllers
             {
                 try
                 {
-                    await personBl.CreateNewPerson(new PersonDto()
+                    Guid personId = await personBl.CreateNewPerson(new PersonDto()
                     {
                         Name = model.Person.Name,
                         Surname = model.Person.Surname,
                         Company = model.Person.Company
                     });
+
+                    PersonCreatedEvent personCreatedEvent = new PersonCreatedEvent()
+                    {
+                        PersonCreatedMessages = model.PersonContacts.Select(x => new PersonCreatedEvent.PersonCreatedMessageModel
+                        {
+                            PersonId = personId,
+                            EmailAddress = x.EmailAddress,
+                            Location = x.Location,
+                            PhoneNumber = x.PhoneNumber
+                        }).ToList()
+                    };
+
+                    await publishEndpoint.Publish(personCreatedEvent);
                 }
                 catch (Exception ex)
                 {

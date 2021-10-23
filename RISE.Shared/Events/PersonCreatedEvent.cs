@@ -8,11 +8,14 @@ namespace RISE.Shared.Events
 {
     public class PersonCreatedEvent
     {
-        public PersonCreatedMessageModel PersonCreatedMessage { get; set; }
+        public List<PersonCreatedMessageModel> PersonCreatedMessages { get; set; }
 
-        public class PersonCreatedMessageModel 
+        public class PersonCreatedMessageModel
         {
-        
+            public Guid PersonId { get; set; }
+            public string EmailAddress { get; set; }
+            public string Location { get; set; }
+            public string PhoneNumber { get; set; }
         }
     }
 }
