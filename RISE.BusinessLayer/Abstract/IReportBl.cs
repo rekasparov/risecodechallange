@@ -9,7 +9,7 @@ namespace RISE.BusinessLayer.Abstract
 {
     public interface IReportBl
     {
-        Task CreateReport(ReportDto model);
+        Task CreateReport();
         Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize);
     }
 }
