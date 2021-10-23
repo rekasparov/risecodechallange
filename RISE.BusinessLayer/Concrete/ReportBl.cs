@@ -20,7 +20,7 @@ namespace RISE.BusinessLayer.Concrete
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task CreateReport(ReportDto model)
+        public async Task CreateReport()
         {
             try
             {
