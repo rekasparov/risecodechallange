@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:42716",
+      "applicationUrl": "http://localhost:4938",
       "sslPort": 0
     }
   },
@@ -15,9 +15,9 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:8004"
+      "applicationUrl": "http://localhost:8006"
     },
-    "RISE.ReportApi": {
+    "RISE.ReportDetailApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",

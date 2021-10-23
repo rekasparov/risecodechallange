@@ -3,6 +3,7 @@ using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
 using RISE.Entity;
 using RISE.UnitOfWork.Abstract;
+using RISE.UnitOfWork.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,7 @@ namespace RISE.BusinessLayer.Concrete
 {
     public class PersonBl : IPersonBl
     {
-        private readonly IBaseUnitOfWork unitOfWork;
-
-        public PersonBl(IBaseUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+        private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
         public async Task CreateNewPerson(PersonDto model)
         {
