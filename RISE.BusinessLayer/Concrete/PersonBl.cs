@@ -74,6 +74,7 @@ namespace RISE.BusinessLayer.Concrete
                         Company = x.Company,
                         PersonContacts = x.PersonContacts.Select(y => new PersonContactDto()
                         {
+                            UUID = y.UUID,
                             PersonId = y.PersonId,
                             PhoneNumber = y.PhoneNumber,
                             EmailAddress = y.EmailAddress,
@@ -104,6 +105,7 @@ namespace RISE.BusinessLayer.Concrete
                         Company = x.Company,
                         PersonContacts = x.PersonContacts.Select(y => new PersonContactDto()
                         {
+                            UUID = y.UUID,
                             PersonId = y.PersonId,
                             PhoneNumber = y.PhoneNumber,
                             EmailAddress = y.EmailAddress,

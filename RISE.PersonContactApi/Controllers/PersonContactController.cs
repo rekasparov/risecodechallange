@@ -48,6 +48,7 @@ namespace RISE.PersonContactApi.Controllers
         }
 
         [HttpDelete]
+        [Route("DeletePersonContact")]
         public async Task<IActionResult> DeletePersonContact(DeletePersonContactModel model)
         {
             using (ResponseDataModel responseDataModel = new ResponseDataModel())
