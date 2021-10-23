@@ -21,6 +21,7 @@ namespace RISE.Entity
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonContact> PersonContacts { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<ReportDetail> ReportDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -103,6 +104,23 @@ namespace RISE.Entity
                 entity.Property(e => e.UUID).ValueGeneratedNever();
 
                 entity.Property(e => e.RequestDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ReportDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.ReportId });
+
+                entity.ToTable("ReportDetail");
+
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Report)
+                    .WithMany(p => p.ReportDetails)
+                    .HasForeignKey(d => d.ReportId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             OnModelCreatingPartial(modelBuilder);

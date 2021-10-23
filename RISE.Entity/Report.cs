@@ -7,8 +7,15 @@ namespace RISE.Entity
 {
     public partial class Report
     {
+        public Report()
+        {
+            ReportDetails = new HashSet<ReportDetail>();
+        }
+
         public Guid UUID { get; set; }
         public DateTime RequestDate { get; set; }
         public bool Status { get; set; }
+
+        public virtual ICollection<ReportDetail> ReportDetails { get; set; }
     }
 }
