@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using RISE.BusinessLayer.Abstract;
+using RISE.DataTransferObject;
 using RISE.Shared.Events;
 using System;
 using System.Collections.Generic;
@@ -9,9 +11,32 @@ namespace RISE.PersonContactApi.Concumers
 {
     public class PersonCreatedConsumer : IConsumer<PersonCreatedEvent>
     {
-        public Task Consume(ConsumeContext<PersonCreatedEvent> context)
+        private readonly IPersonContactBl personContactBl;
+
+        public PersonCreatedConsumer(IPersonContactBl personContactBl)
         {
-            throw new NotImplementedException();
+            this.personContactBl = personContactBl;
+        }
+
+        public async Task Consume(ConsumeContext<PersonCreatedEvent> context)
+        {
+            try
+            {
+                foreach (var personCreatedMessage in context.Message.PersonCreatedMessages)
+                {
+                    await personContactBl.CreateNewPersonContact(new PersonContactDto()
+                    {
+                        PersonId = personCreatedMessage.PersonId,
+                        EmailAddress = personCreatedMessage.EmailAddress,
+                        Location = personCreatedMessage.Location,
+                        PhoneNumber = personCreatedMessage.PhoneNumber
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error={ex.Message}");
+            }
         }
     }
 }
