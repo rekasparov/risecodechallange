@@ -22,6 +22,7 @@ namespace RISE.BusinessLayer.Concrete
             {
                 PersonContact personContact = new PersonContact()
                 {
+                    UUID = Guid.NewGuid(),
                     PersonId = model.PersonId,
                     PhoneNumber = model.PhoneNumber,
                     EmailAddress = model.EmailAddress,

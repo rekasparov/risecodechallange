@@ -23,7 +23,7 @@ namespace RISE.UnitOfWork.Concrete
             {
                 if (_dbContext == null)
                 {
-                    lock (_dbContext)
+                    lock (locker)
                     {
                         if (_dbContext == null)
                         {
