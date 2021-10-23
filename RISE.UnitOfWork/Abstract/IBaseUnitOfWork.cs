@@ -1,0 +1,19 @@
+﻿using RISE.DataAccessLayer.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RISE.UnitOfWork.Abstract
+{
+    public interface IBaseUnitOfWork
+    {
+        IContactTypeDal ContactType { get; }
+        IPersonDal Person { get; }
+        IPersonContactDal PersonContact { get; }
+        IReportDal Report { get; }
+
+        Task<int> SaveChangesAsync();
+    }
+}
