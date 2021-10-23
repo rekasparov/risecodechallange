@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.PersonApi", "RISE.Pers
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.PersonContactApi", "RISE.PersonContactApi\RISE.PersonContactApi.csproj", "{599D4957-ABD2-4D82-BE2D-CA40B752E0DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RISE.ReportApi", "RISE.ReportApi\RISE.ReportApi.csproj", "{6635846F-678B-44D2-8016-714A03B353F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.ReportApi", "RISE.ReportApi\RISE.ReportApi.csproj", "{6635846F-678B-44D2-8016-714A03B353F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RISE.ReportDetailApi", "RISE.ReportDetailApi\RISE.ReportDetailApi.csproj", "{D26E41F9-D8B3-4C4C-9224-DF5DE8CE1F90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{6635846F-678B-44D2-8016-714A03B353F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6635846F-678B-44D2-8016-714A03B353F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6635846F-678B-44D2-8016-714A03B353F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D26E41F9-D8B3-4C4C-9224-DF5DE8CE1F90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D26E41F9-D8B3-4C4C-9224-DF5DE8CE1F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D26E41F9-D8B3-4C4C-9224-DF5DE8CE1F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D26E41F9-D8B3-4C4C-9224-DF5DE8CE1F90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,6 +2,7 @@
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
 using RISE.UnitOfWork.Abstract;
+using RISE.UnitOfWork.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,7 @@ namespace RISE.BusinessLayer.Concrete
 {
     public class ReportDetailBl : IReportDetailBl
     {
-        private readonly IBaseUnitOfWork unitOfWork;
-
-        public ReportDetailBl(IBaseUnitOfWork unitOfWork)
-        {
-            this.unitOfWork = unitOfWork;
-        }
+        private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
         public async Task<ReportDetailDto> GetReportDetailByReportUUID(Guid reportId)
         {
