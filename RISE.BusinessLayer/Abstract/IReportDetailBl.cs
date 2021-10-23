@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace RISE.BusinessLayer.Abstract
 {
-    public interface IReportBl
+    public interface IReportDetailBl
     {
-        Task CreateReport(ReportDto model);
-        Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize);
+        Task<List<ReportDetailDto>> GetReportDetailsByReportUUID();
     }
 }
