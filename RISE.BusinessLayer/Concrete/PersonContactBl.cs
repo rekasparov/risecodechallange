@@ -48,7 +48,9 @@ namespace RISE.BusinessLayer.Concrete
         {
             try
             {
-                PersonContact personContact = await unitOfWork.PersonContact.Select(x => x.PersonId == model.PersonId).FirstOrDefaultAsync();
+                PersonContact personContact = await unitOfWork.PersonContact
+                    .Select(x => x.UUID == model.UUID)
+                    .FirstOrDefaultAsync();
 
                 if (personContact != null) unitOfWork.PersonContact.Delete(personContact);
 

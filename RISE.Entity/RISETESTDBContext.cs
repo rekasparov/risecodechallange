@@ -108,8 +108,8 @@ namespace RISE.Entity
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Report)
-                     .WithMany(p => p.ReportDetails)
-                    .HasForeignKey(d => d.ReportId)
+                     .WithOne(p => p.ReportDetail)
+                    .HasForeignKey<ReportDetail>(d => d.ReportId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 

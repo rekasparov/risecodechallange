@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RISE.Entity;
 
 namespace RISE.Entity.Migrations
 {
     [DbContext(typeof(RISETESTDBContext))]
-    partial class RISETESTDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211023131245_AddedMultiplePersonDetailSupport")]
+    partial class AddedMultiplePersonDetailSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,8 +134,8 @@ namespace RISE.Entity.Migrations
             modelBuilder.Entity("RISE.Entity.ReportDetail", b =>
                 {
                     b.HasOne("RISE.Entity.Report", "Report")
-                        .WithOne("ReportDetail")
-                        .HasForeignKey("RISE.Entity.ReportDetail", "ReportId")
+                        .WithMany("ReportDetails")
+                        .HasForeignKey("ReportId")
                         .IsRequired();
 
                     b.Navigation("Report");
@@ -146,7 +148,7 @@ namespace RISE.Entity.Migrations
 
             modelBuilder.Entity("RISE.Entity.Report", b =>
                 {
-                    b.Navigation("ReportDetail");
+                    b.Navigation("ReportDetails");
                 });
 #pragma warning restore 612, 618
         }
