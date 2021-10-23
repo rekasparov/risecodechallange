@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RISE.DataAccessLayer.Abstract
 {
-    public interface IContactTypeDal : IBaseRepository<ContactType>
+    public interface IReportDetailDal : IBaseRepository<ReportDetail>
     {
     }
 }

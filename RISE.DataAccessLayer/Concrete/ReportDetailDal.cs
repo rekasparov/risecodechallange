@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace RISE.DataAccessLayer.Concrete
 {
-    public class ContactTypeDal : BaseRepository<ContactType>, IContactTypeDal
+    public class ReportDetailDal : BaseRepository<ReportDetail>, IReportDetailDal
     {
-        public ContactTypeDal(DbContext dbContext)
+        public ReportDetailDal(DbContext dbContext)
             : base(dbContext)
         {
 

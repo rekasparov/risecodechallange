@@ -9,11 +9,12 @@ namespace RISE.UnitOfWork.Abstract
 {
     public interface IBaseUnitOfWork
     {
-        IContactTypeDal ContactType { get; }
         IPersonDal Person { get; }
         IPersonContactDal PersonContact { get; }
         IReportDal Report { get; }
+        IReportDetailDal ReportDetail { get; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> CommitAsync();
+        Task RollBackAsync();
     }
 }

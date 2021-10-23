@@ -36,19 +36,31 @@ namespace RISE.UnitOfWork.Concrete
             }
         }
 
-        public IContactTypeDal ContactType => new ContactTypeDal(dbContext);
-
         public IPersonDal Person => new PersonDal(dbContext);
 
         public IPersonContactDal PersonContact => new PersonContactDal(dbContext);
 
         public IReportDal Report => new ReportDal(dbContext);
 
-        public async Task<int> SaveChangesAsync()
+        public IReportDetailDal ReportDetail => new ReportDetailDal(dbContext);
+
+        public async Task<int> CommitAsync()
         {
             try
             {
                 return await dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task RollBackAsync()
+        {
+            try
+            {
+                await dbContext.DisposeAsync();
             }
             catch
             {

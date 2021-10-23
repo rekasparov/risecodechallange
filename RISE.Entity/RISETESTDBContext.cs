@@ -17,10 +17,10 @@ namespace RISE.Entity
         {
         }
 
-        public virtual DbSet<ContactType> ContactTypes { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PersonContact> PersonContacts { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
+        public virtual DbSet<ReportDetail> ReportDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,20 +33,6 @@ namespace RISE.Entity
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Turkish_CI_AS");
-
-            modelBuilder.Entity<ContactType>(entity =>
-            {
-                entity.HasKey(e => e.UUID);
-
-                entity.ToTable("ContactType");
-
-                entity.Property(e => e.UUID).ValueGeneratedNever();
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
 
             modelBuilder.Entity<Person>(entity =>
             {
@@ -74,19 +60,24 @@ namespace RISE.Entity
 
             modelBuilder.Entity<PersonContact>(entity =>
             {
-                entity.HasKey(e => new { e.PersonId, e.ContactTypeId });
+                entity.HasKey(e => new { e.UUID, e.PersonId });
 
                 entity.ToTable("PersonContact");
 
-                entity.Property(e => e.Content)
+                entity.Property(e => e.PhoneNumber)
                     .IsRequired()
-                    .HasMaxLength(500)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.ContactType)
-                    .WithMany(p => p.PersonContacts)
-                    .HasForeignKey(d => d.ContactTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.Property(e => e.EmailAddress)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.PersonContacts)
@@ -103,6 +94,23 @@ namespace RISE.Entity
                 entity.Property(e => e.UUID).ValueGeneratedNever();
 
                 entity.Property(e => e.RequestDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<ReportDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.ReportId });
+
+                entity.ToTable("ReportDetail");
+
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Report)
+                     .WithOne(p => p.ReportDetail)
+                    .HasForeignKey<ReportDetail>(d => d.ReportId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
-namespace RISE.Entity
+namespace RISE.DataTransferObject
 {
-    public partial class PersonContact
+    public partial class PersonContactDto
     {
         public Guid UUID { get; set; }
         public Guid PersonId { get; set; }
@@ -13,6 +14,6 @@ namespace RISE.Entity
         public string EmailAddress { get; set; }
         public string Location { get; set; }
 
-        public virtual Person Person { get; set; }
+        public virtual PersonDto Person { get; set; }
     }
 }

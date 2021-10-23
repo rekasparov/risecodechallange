@@ -10,5 +10,7 @@ namespace RISE.Entity
         public Guid UUID { get; set; }
         public DateTime RequestDate { get; set; }
         public bool Status { get; set; }
+
+        public virtual ReportDetail ReportDetail { get; set; }
     }
 }
