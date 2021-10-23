@@ -44,11 +44,23 @@ namespace RISE.UnitOfWork.Concrete
 
         public IReportDal Report => new ReportDal(dbContext);
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> CommitAsync()
         {
             try
             {
                 return await dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task RollBackAsync()
+        {
+            try
+            {
+                await dbContext.DisposeAsync();
             }
             catch
             {

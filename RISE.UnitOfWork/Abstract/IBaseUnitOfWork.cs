@@ -14,6 +14,7 @@ namespace RISE.UnitOfWork.Abstract
         IPersonContactDal PersonContact { get; }
         IReportDal Report { get; }
 
-        Task<int> SaveChangesAsync();
+        Task<int> CommitAsync();
+        Task RollBackAsync();
     }
 }
