@@ -29,11 +29,9 @@ namespace RISE.BusinessLayer.Concrete
                     Name = model.Name,
                     Surname = model.Surname,
                     Company = model.Company,
-                    PersonContacts = model.PersonContacts.Select(x => new PersonContact
+                    PersonContact = new PersonContact
                     {
-                        ContactTypeId = x.ContactTypeId,
-                        Content = x.Content
-                    }).ToList()
+                    }
                 };
 
                 unitOfWork.Person.Insert(person);
@@ -72,25 +70,20 @@ namespace RISE.BusinessLayer.Concrete
             try
             {
                 return await unitOfWork.Person.Select(x => x.UUID == UUID)
-                    .Include(x => x.PersonContacts)
-                        .ThenInclude(x => x.ContactType)
+                    .Include(x => x.PersonContact)
                     .Select(x => new PersonDto
                     {
                         UUID = x.UUID,
                         Name = x.Name,
                         Surname = x.Surname,
                         Company = x.Company,
-                        PersonContacts = x.PersonContacts.Select(y => new PersonContactDto()
+                        PersonContact = new PersonContactDto()
                         {
-                            PersonId = y.PersonId,
-                            ContactTypeId = y.ContactTypeId,
-                            Content = y.Content,
-                            ContactType = new ContactTypeDto()
-                            {
-                                UUID = y.ContactType.UUID,
-                                Name = y.ContactType.Name
-                            }
-                        }).ToList()
+                            PersonId = x.PersonContact.PersonId,
+                            PhoneNumber = x.PersonContact.PhoneNumber,
+                            EmailAddress = x.PersonContact.EmailAddress,
+                            Location = x.PersonContact.Location
+                        }
                     })
                     .FirstOrDefaultAsync();
             }
@@ -107,25 +100,20 @@ namespace RISE.BusinessLayer.Concrete
             try
             {
                 return await unitOfWork.Person.Select()
-                    .Include(x => x.PersonContacts)
-                        .ThenInclude(x => x.ContactType)
+                    .Include(x => x.PersonContact)
                     .Select(x => new PersonDto
                     {
                         UUID = x.UUID,
                         Name = x.Name,
                         Surname = x.Surname,
                         Company = x.Company,
-                        PersonContacts = x.PersonContacts.Select(y => new PersonContactDto()
+                        PersonContact = new PersonContactDto()
                         {
-                            PersonId = y.PersonId,
-                            ContactTypeId = y.ContactTypeId,
-                            Content = y.Content,
-                            ContactType = new ContactTypeDto()
-                            {
-                                UUID = y.ContactType.UUID,
-                                Name = y.ContactType.Name
-                            }
-                        }).ToList()
+                            PersonId = x.PersonContact.PersonId,
+                            PhoneNumber = x.PersonContact.PhoneNumber,
+                            EmailAddress = x.PersonContact.EmailAddress,
+                            Location = x.PersonContact.Location
+                        }
                     })
                     .Skip(pageIndex * pageSize)
                     .Take(pageSize)

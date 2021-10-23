@@ -9,7 +9,6 @@ namespace RISE.UnitOfWork.Abstract
 {
     public interface IBaseUnitOfWork
     {
-        IContactTypeDal ContactType { get; }
         IPersonDal Person { get; }
         IPersonContactDal PersonContact { get; }
         IReportDal Report { get; }

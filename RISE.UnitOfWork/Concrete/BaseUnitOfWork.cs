@@ -36,8 +36,6 @@ namespace RISE.UnitOfWork.Concrete
             }
         }
 
-        public IContactTypeDal ContactType => new ContactTypeDal(dbContext);
-
         public IPersonDal Person => new PersonDal(dbContext);
 
         public IPersonContactDal PersonContact => new PersonContactDal(dbContext);

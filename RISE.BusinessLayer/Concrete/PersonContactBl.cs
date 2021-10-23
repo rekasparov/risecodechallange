@@ -27,8 +27,9 @@ namespace RISE.BusinessLayer.Concrete
                 PersonContact personContact = new PersonContact()
                 {
                     PersonId = model.PersonId,
-                    ContactTypeId = model.ContactTypeId,
-                    Content = model.Content
+                    PhoneNumber = model.PhoneNumber,
+                    EmailAddress = model.EmailAddress,
+                    Location = model.Location
                 };
 
                 unitOfWork.PersonContact.Insert(personContact);

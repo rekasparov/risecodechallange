@@ -8,10 +8,10 @@ namespace RISE.Entity
     public partial class PersonContact
     {
         public Guid PersonId { get; set; }
-        public Guid ContactTypeId { get; set; }
-        public string Content { get; set; }
+        public string PhoneNumber { get; set; }
+        public string EmailAddress { get; set; }
+        public string Location { get; set; }
 
-        public virtual ContactType ContactType { get; set; }
         public virtual Person Person { get; set; }
     }
 }
