@@ -7,6 +7,7 @@ namespace RISE.Entity
 {
     public partial class PersonContact
     {
+        public Guid UUID { get; set; }
         public Guid PersonId { get; set; }
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }

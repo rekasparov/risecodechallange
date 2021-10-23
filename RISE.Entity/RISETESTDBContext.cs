@@ -56,16 +56,11 @@ namespace RISE.Entity
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.PersonContact)
-                    .WithOne(p => p.Person)
-                    .HasForeignKey<PersonContact>(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PersonContact>(entity =>
             {
-                entity.HasKey(e => new { e.PersonId });
+                entity.HasKey(e => new { e.UUID, e.PersonId });
 
                 entity.ToTable("PersonContact");
 
@@ -83,6 +78,11 @@ namespace RISE.Entity
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.PersonContacts)
+                    .HasForeignKey(d => d.PersonId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Report>(entity =>

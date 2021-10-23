@@ -31,6 +31,9 @@ namespace RISE.BusinessLayer.Concrete
                     Company = model.Company,
                     PersonContact = new PersonContact
                     {
+                        PhoneNumber = model.PersonContact.PhoneNumber,
+                        EmailAddress = model.PersonContact.EmailAddress,
+                        Location = model.PersonContact.Location
                     }
                 };
 
@@ -50,7 +53,10 @@ namespace RISE.BusinessLayer.Concrete
         {
             try
             {
-                Person person = await unitOfWork.Person.Select(x => x.UUID == model.UUID).FirstOrDefaultAsync();
+                Person person = await unitOfWork.Person
+                    .Select(x => x.UUID == model.UUID)
+                    .Include(x => x.PersonContact)
+                    .FirstOrDefaultAsync();
 
                 if (person != null) unitOfWork.Person.Delete(person);
 

@@ -7,11 +7,16 @@ namespace RISE.Entity
 {
     public partial class Person
     {
+        public Person()
+        {
+            PersonContacts = new HashSet<PersonContact>();
+        }
+
         public Guid UUID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Company { get; set; }
 
-        public virtual PersonContact PersonContact { get; set; }
+        public virtual ICollection<PersonContact> PersonContacts { get; set; }
     }
 }
