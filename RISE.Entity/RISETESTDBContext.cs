@@ -26,13 +26,13 @@ namespace RISE.Entity
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.;Database=RISETESTDB;User Id=sa;Password=07081983Konya");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=RISETESTDB;Username=postgres;Password=1");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Turkish_CI_AS");
+            //modelBuilder.HasAnnotation("Relational:Collation", "Turkish_CI_AS");
 
             modelBuilder.Entity<Person>(entity =>
             {
