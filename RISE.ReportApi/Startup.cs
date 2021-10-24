@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RISE.BusinessLayer.Abstract;
 using RISE.BusinessLayer.Concrete;
+using RISE.ReportApi.Consumers;
+using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,23 @@ namespace RISE.ReportApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<ReportDetailCreatedConsumer>();
+
+                x.UsingRabbitMq((context, config) =>
+                {
+                    config.Host(Configuration.GetConnectionString("RabbitMQ"));
+
+                    config.ReceiveEndpoint(RabbitMQSettingsModel.ReportDetailCreatedQueueName, y =>
+                    {
+                        y.ConfigureConsumer<ReportDetailCreatedConsumer>(context);
+                    });
+                });
+            });
+
+            services.AddMassTransitHostedService();
+
             services.AddSingleton(typeof(IReportBl), typeof(ReportBl));
 
             services.AddCors();

@@ -16,13 +16,15 @@ namespace RISE.BusinessLayer.Concrete
     {
         private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
-        public async Task CreateReport()
+        public async Task<Guid> CreateReport()
         {
             try
             {
+                Guid uuid = Guid.NewGuid();
+
                 Report report = new Report()
                 {
-                    UUID = Guid.NewGuid(),
+                    UUID = uuid,
                     RequestDate = DateTime.Now,
                     Status = false
                 };
@@ -30,6 +32,8 @@ namespace RISE.BusinessLayer.Concrete
                 unitOfWork.Report.Insert(report);
 
                 await unitOfWork.CommitAsync();
+
+                return uuid;
             }
             catch
             {
@@ -53,6 +57,24 @@ namespace RISE.BusinessLayer.Concrete
                     .Skip(pageIndex * pageSize)
                     .Take(pageSize)
                     .ToListAsync();
+            }
+            catch
+            {
+                await unitOfWork.RollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task UpdateStatus(Guid uuid)
+        {
+            try
+            {
+                Report report = await unitOfWork.Report.Select(x => x.UUID == uuid).FirstOrDefaultAsync();
+
+                if (report != null) report.Status = true;
+
+                await unitOfWork.CommitAsync();
             }
             catch
             {

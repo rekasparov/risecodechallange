@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RISE.BusinessLayer.Abstract;
+using RISE.Shared.Events;
 using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -14,10 +16,12 @@ namespace RISE.ReportApi.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IReportBl reportBl;
+        private readonly IPublishEndpoint publishEndpoint;
 
-        public ReportController(IReportBl reportBl)
+        public ReportController(IReportBl reportBl, IPublishEndpoint publishEndpoint)
         {
             this.reportBl = reportBl;
+            this.publishEndpoint = publishEndpoint;
         }
 
         [HttpPost]
@@ -28,7 +32,17 @@ namespace RISE.ReportApi.Controllers
             {
                 try
                 {
-                    await reportBl.CreateReport();
+                    Guid reportId = await reportBl.CreateReport();
+
+                    ReportCreatedEvent reportCreatedEvent = new ReportCreatedEvent()
+                    {
+                        ReportCreatedMessage = new ReportCreatedEvent.ReportCreatedMessageModel()
+                        {
+                            ReportId = reportId
+                        }
+                    };
+
+                    await publishEndpoint.Publish(reportCreatedEvent);
                 }
                 catch (Exception ex)
                 {
@@ -42,7 +56,7 @@ namespace RISE.ReportApi.Controllers
 
         [HttpGet]
         [Route("GetReportList")]
-        public async Task<IActionResult> GetReportList(int pageIndex, int pageSize) 
+        public async Task<IActionResult> GetReportList(int pageIndex, int pageSize)
         {
             using (ResponseDataModel responseDataModel = new ResponseDataModel())
             {
