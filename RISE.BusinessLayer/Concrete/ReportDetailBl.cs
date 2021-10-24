@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
+using RISE.Entity;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -35,6 +36,38 @@ namespace RISE.BusinessLayer.Concrete
                             Status = x.Report.Status
                         }
                     }).FirstOrDefaultAsync();
+            }
+            catch
+            {
+                await unitOfWork.RollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task CreateReportByReportId(Guid reportId)
+        {
+            try
+            {
+                List<string> locationList = await unitOfWork.PersonContact.Select().Select(x => x.Location).Distinct().ToListAsync();
+
+                foreach (var location in locationList)
+                {
+                    int personCount = await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PersonId).Distinct().CountAsync();
+
+                    int phoneNumberCount = await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PhoneNumber).CountAsync();
+
+                    unitOfWork.ReportDetail.Insert(new ReportDetail()
+                    {
+                        UUID = Guid.NewGuid(),
+                        ReportId = reportId,
+                        Location = location,
+                        PersonCount = personCount,
+                        PhoneNumberCount = phoneNumberCount
+                    });
+                }
+
+                await unitOfWork.CommitAsync();
             }
             catch
             {

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace RISE.Shared.Events
 {
-    public class ReportCreatedEvent
+    public class ReportDetailCreatedEvent
     {
-        public ReportCreatedMessageModel ReportCreatedMessage { get; set; }
+        public ReportDetailCreatedMessageModel ReportDetailCreatedMessage { get; set; }
 
-        public class ReportCreatedMessageModel
+        public class ReportDetailCreatedMessageModel
         {
             public Guid ReportId { get; set; }
         }
