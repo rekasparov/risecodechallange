@@ -23,6 +23,7 @@ namespace RISE.BusinessLayer.Concrete
                     .Include(x => x.Report)
                     .Select(x => new ReportDetailDto
                     {
+                        UUID = x.UUID,
                         ReportId = x.ReportId,
                         Location = x.Location,
                         PersonCount = x.PersonCount,

@@ -8,6 +8,7 @@ namespace RISE.DataTransferObject
 {
     public partial class ReportDetailDto
     {
+        public Guid UUID { get; set; }
         public Guid ReportId { get; set; }
         public string Location { get; set; }
         public int PersonCount { get; set; }

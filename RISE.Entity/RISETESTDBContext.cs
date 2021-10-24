@@ -64,6 +64,8 @@ namespace RISE.Entity
 
                 entity.ToTable("PersonContact");
 
+                entity.Property(e => e.UUID).ValueGeneratedNever();
+
                 entity.Property(e => e.PhoneNumber)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -98,9 +100,11 @@ namespace RISE.Entity
 
             modelBuilder.Entity<ReportDetail>(entity =>
             {
-                entity.HasKey(e => new { e.ReportId });
+                entity.HasKey(e => new { e.UUID, e.ReportId });
 
                 entity.ToTable("ReportDetail");
+
+                entity.Property(e => e.UUID).ValueGeneratedNever();
 
                 entity.Property(e => e.Location)
                     .IsRequired()
@@ -108,8 +112,8 @@ namespace RISE.Entity
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Report)
-                     .WithOne(p => p.ReportDetail)
-                    .HasForeignKey<ReportDetail>(d => d.ReportId)
+                    .WithMany(p => p.ReportDetails)
+                    .HasForeignKey(d => d.ReportId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
