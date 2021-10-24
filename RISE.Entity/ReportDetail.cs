@@ -8,6 +8,7 @@ namespace RISE.Entity
 {
     public partial class ReportDetail
     {
+        public Guid UUID { get; set; }
         public Guid ReportId { get; set; }
         public string Location { get; set; }
         public int PersonCount { get; set; }
