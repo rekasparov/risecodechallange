@@ -13,11 +13,11 @@ namespace RISE.UnitOfWork.Concrete
 {
     public class BaseUnitOfWork : IBaseUnitOfWork
     {
-        private readonly object locker = new object();
+        private static readonly object locker = new object();
 
-        private DbContext _dbContext;
+        private static DbContext _dbContext;
 
-        private DbContext dbContext
+        private static DbContext dbContext
         {
             get
             {
@@ -61,6 +61,7 @@ namespace RISE.UnitOfWork.Concrete
             try
             {
                 await dbContext.DisposeAsync();
+                await _dbContext.DisposeAsync();
             }
             catch
             {

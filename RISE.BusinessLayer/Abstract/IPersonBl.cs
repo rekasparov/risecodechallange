@@ -10,8 +10,9 @@ namespace RISE.BusinessLayer.Abstract
     public interface IPersonBl
     {
         Task<Guid> CreateNewPerson(PersonDto model);
-        Task DeletePerson(PersonDto model);
+        Task DeletePerson(Guid uuid);
+        Task EditPerson(PersonDto model);
         Task<List<PersonDto>> GetPersonList(int pageIndex, int pageSize);
-        Task<PersonDto> GetPersonByUUID(Guid UUID);
+        Task<PersonDto> GetPersonByUUID(Guid uuid);
     }
 }

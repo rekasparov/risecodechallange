@@ -61,5 +61,37 @@ namespace RISE.BusinessLayer.Concrete
                 throw;
             }
         }
+
+        public async Task<List<PersonContactDto>> GetPersonContactsByPersonId(Guid personId)
+        {
+            try
+            {
+                return await unitOfWork.PersonContact
+                    .Select(x => x.PersonId == personId)
+                    .Include(x => x.Person)
+                    .Select(x => new PersonContactDto()
+                    {
+                        UUID = x.UUID,
+                        PersonId = x.PersonId,
+                        PhoneNumber = x.PhoneNumber,
+                        EmailAddress = x.EmailAddress,
+                        Location = x.Location,
+                        Person = new PersonDto()
+                        {
+                            UUID = x.Person.UUID,
+                            Name = x.Person.Name,
+                            Surname = x.Person.Surname,
+                            Company = x.Person.Company
+                        }
+                    })
+                    .ToListAsync();
+            }
+            catch
+            {
+                await unitOfWork.RollBackAsync();
+
+                throw;
+            }
+        }
     }
 }

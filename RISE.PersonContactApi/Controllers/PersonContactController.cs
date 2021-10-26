@@ -22,6 +22,26 @@ namespace RISE.PersonContactApi.Controllers
             this.personContactBl = personContactBl;
         }
 
+        [HttpGet]
+        [Route("GetPersonContactsByPersonId")]
+        public async Task<IActionResult> GetPersonContactsByPersonId(Guid personId)
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    responseDataModel.Data = await personContactBl.GetPersonContactsByPersonId(personId);
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
         [HttpPost]
         [Route("CreateNewPersonContact")]
         public async Task<IActionResult> CreateNewPersonContact(CreateNewPersonContactModel model)

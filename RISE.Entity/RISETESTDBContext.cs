@@ -84,7 +84,7 @@ namespace RISE.Entity
                 entity.HasOne(d => d.Person)
                     .WithMany(p => p.PersonContacts)
                     .HasForeignKey(d => d.PersonId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Report>(entity =>
@@ -114,7 +114,7 @@ namespace RISE.Entity
                 entity.HasOne(d => d.Report)
                     .WithMany(p => p.ReportDetails)
                     .HasForeignKey(d => d.ReportId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             OnModelCreatingPartial(modelBuilder);
