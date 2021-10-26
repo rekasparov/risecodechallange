@@ -22,6 +22,26 @@ namespace RISE.PersonContactApi.Controllers
             this.personContactBl = personContactBl;
         }
 
+        [HttpGet]
+        [Route("GetPersonContactsByPersonId")]
+        public async Task<IActionResult> GetPersonContactsByPersonId(Guid personId)
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    responseDataModel.Data = await personContactBl.GetPersonContactsByPersonId(personId);
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
         [HttpPost]
         [Route("CreateNewPersonContact")]
         public async Task<IActionResult> CreateNewPersonContact(CreateNewPersonContactModel model)
@@ -56,14 +76,7 @@ namespace RISE.PersonContactApi.Controllers
             {
                 try
                 {
-                    await personContactBl.DeletePersonContact(new PersonContactDto()
-                    {
-                        UUID = model.UUID,
-                        PersonId = model.PersonId,
-                        EmailAddress = model.EmailAddress,
-                        Location = model.Location,
-                        PhoneNumber = model.PhoneNumber
-                    });
+                    await personContactBl.DeletePersonContact(model.UUID);
                 }
                 catch (Exception ex)
                 {

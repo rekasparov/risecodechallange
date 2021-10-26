@@ -16,12 +16,12 @@ namespace RISE.ReportApi.Controllers
     public class ReportController : ControllerBase
     {
         private readonly IReportBl reportBl;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly ISendEndpointProvider sendEndpointProvider;
 
-        public ReportController(IReportBl reportBl, IPublishEndpoint publishEndpoint)
+        public ReportController(IReportBl reportBl, ISendEndpointProvider sendEndpointProvider)
         {
             this.reportBl = reportBl;
-            this.publishEndpoint = publishEndpoint;
+            this.sendEndpointProvider = sendEndpointProvider;
         }
 
         [HttpPost]
@@ -42,7 +42,9 @@ namespace RISE.ReportApi.Controllers
                         }
                     };
 
-                    await publishEndpoint.Publish(reportCreatedEvent);
+                    ISendEndpoint sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsModel.ReportCreatedQueueName}"));
+
+                    await sendEndpoint.Send(reportCreatedEvent);
                 }
                 catch (Exception ex)
                 {

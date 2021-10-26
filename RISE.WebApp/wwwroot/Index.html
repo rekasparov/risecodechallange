@@ -1,0 +1,309 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="lib/fontawesome/styles.min.css" rel="stylesheet" />
+    <link href="Index.css" rel="stylesheet" />
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="lib/jquery-validation/dist/localization/messages_tr.min.js"></script>
+    <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="Index.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <span class="navbar-brand text-info">RISE Rehber</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" id="contactNav">Rehber <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="reportNav">Rapor <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container px-4 py-5">
+        <div id="contactView">
+            <h2 class="pb-2 border-bottom">Rehber</h2>
+            <div class="row g-4 py-5">
+                <div class="col-sm-12">
+                    <table class="table table-striped w-100">
+                        <thead>
+                            <tr>
+                                <td colspan="2" class="text-left form-inline">
+                                    <span class="mr-2">Kayıt sayısı:</span>
+                                    <select class="custom-select custom-select-sm" id="pageSizeContact">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="0">Tümü</option>
+                                    </select>
+                                </td>
+                                <td colspan="3" class="text-right">
+                                    <button class="btn btn-sm btn-info" id="addNewContact"><i class="fa fa-address-card mr-2"></i> Yeni kayıt</button>
+                                    <button class="btn btn-sm btn-secondary" id="refreshContact"><i class="fa fa-sync-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="d-none">UUID</th>
+                                <th class="text-left w-25">Adı</th>
+                                <th class="text-left w-25">Soyadı</th>
+                                <th class="text-left w-25">Firması</th>
+                                <th class="text-center w-25">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableContact">
+                            <tr>
+                                <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-left">
+                                    <nav aria-label="...">
+                                        <ul class="pagination pagination-sm" id="pagingContact">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Previous</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">2</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="reportView" class="d-none">
+            <h2 class="pb-2 border-bottom">Rapor</h2>
+            <div class="row g-4 py-5">
+                <div class="col-sm-12">
+                    <table class="table table-striped w-100">
+                        <thead>
+                            <tr>
+                                <td colspan="2" class="text-left form-inline">
+                                    <span class="mr-2">Kayıt sayısı:</span>
+                                    <select class="custom-select custom-select-sm">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="0">Tümü</option>
+                                    </select>
+                                </td>
+                                <td colspan="3" class="text-right">
+                                    <button class="btn btn-sm btn-info"><i class="fa fa-chart-line mr-2"></i> Yeni rapor talebi</button>
+                                    <button class="btn btn-sm btn-secondary"><i class="fa fa-sync-alt"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="d-none">UUID</th>
+                                <th class="text-left w-25">Rapor Tarihi</th>
+                                <th class="text-left w-50">Durumu</th>
+                                <th class="text-center w-25">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="d-none"></td>
+                                <td class="text-left w-25">24.10.2021 13:26:24</td>
+                                <td class="text-left w-50 text-secondary">Hazırlanıyor</td>
+                                <td class="text-center w-25">
+                                    <button class="btn btn-sm btn-outline-primary mr-2 disabled" disabled><i class="fa fa-eye text-dark"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger mr-2 disabled" disabled><i class="fa fa-eraser text-dark"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="d-none"></td>
+                                <td class="text-left w-25">24.10.2021 13:26:24</td>
+                                <td class="text-left w-50 text-primary">Hazır</td>
+                                <td class="text-center w-25">
+                                    <button class="btn btn-sm btn-outline-primary mr-2"><i class="fa fa-eye text-dark"></i></button>
+                                    <button class="btn btn-sm btn-outline-danger mr-2"><i class="fa fa-eraser text-dark"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-left">
+                                    <nav aria-label="...">
+                                        <ul class="pagination pagination-sm">
+                                            <li class="page-item disabled">
+                                                <span class="page-link">Previous</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item active" aria-current="page">
+                                                <span class="page-link">2</span>
+                                            </li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="editContactModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Düzenle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditContact">
+                            <input type="hidden" id="txtUUIDEditContact" name="txtUUIDEditContact" />
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtNameEditContact" name="txtNameEditContact" placeholder="Adı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtSurnameEditContact" name="txtSurnameEditContact" placeholder="Soyadı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtCompanyEditContact" name="txtCompanyEditContact" placeholder="Firması" required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveEditContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="newContactModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Ekle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNewContact">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtNameNewContact" name="txtNameNewContact" placeholder="Adı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtSurnameNewContact" name="txtSurnameNewContact" placeholder="Soyadı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtCompanyNewContact" name="txtCompanyNewContact" placeholder="Firması" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtPhoneNumberNewContact" name="txtPhoneNumberNewContact" placeholder="Telefon Numarası" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" id="txtEmailAddressNewContact" name="txtEmailAddressNewContact" placeholder="E-Mail Adresi" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtLocationNewContact" name="txtLocationNewContact" placeholder="Konum" readonly required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="contactDetailsModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="personNameModalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4 py-5">
+                            <div class="col-sm-12">
+                                <input type="hidden" id="txtPersonIdContactDetail" name="txtPersonIdContactDetail" />
+                                <table class="table table-striped w-100">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <button class="btn btn-sm btn-info" id="addNewContactDetail"><i class="fa fa-address-card mr-2"></i> Yeni kayıt</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="d-none">UUID</th>
+                                            <th class="d-none">PersonId</th>
+                                            <th class="text-left w-25">Telefon Numarası</th>
+                                            <th class="text-left w-25">E-Mail Adresi</th>
+                                            <th class="text-left w-25">Konum</th>
+                                            <th class="text-center w-25">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableContactDetail">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="newContactDetailModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Ekle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNewContactDetail">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtPhoneNumberNewContactDetail" name="txtPhoneNumberNewContactDetail" placeholder="Telefon Numarası" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" id="txtEmailAddressNewContactDetail" name="txtEmailAddressNewContactDetail" placeholder="E-Mail Adresi" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtLocationNewContactDetail" name="txtLocationNewContactDetail" placeholder="Konum" readonly required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContactDetail"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

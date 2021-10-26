@@ -18,12 +18,12 @@ namespace RISE.PersonApi.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonBl personBl;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly ISendEndpointProvider sendEndpointProvider;
 
-        public PersonController(IPersonBl personBl, IPublishEndpoint publishEndpoint)
+        public PersonController(IPersonBl personBl, ISendEndpointProvider sendEndpointProvider)
         {
             this.personBl = personBl;
-            this.publishEndpoint = publishEndpoint;
+            this.sendEndpointProvider = sendEndpointProvider;
         }
 
         [HttpPost]
@@ -52,7 +52,9 @@ namespace RISE.PersonApi.Controllers
                         }).ToList()
                     };
 
-                    await publishEndpoint.Publish(personCreatedEvent);
+                    ISendEndpoint sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsModel.PersonCreatedQueueName}"));
+
+                    await sendEndpoint.Send(personCreatedEvent);
                 }
                 catch (Exception ex)
                 {
@@ -72,7 +74,27 @@ namespace RISE.PersonApi.Controllers
             {
                 try
                 {
-                    await personBl.DeletePerson(new PersonDto()
+                    await personBl.DeletePerson(model.UUID);
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
+        [HttpPut]
+        [Route("EditPerson")]
+        public async Task<IActionResult> EditPerson(EditPersonModel model)
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    await personBl.EditPerson(new PersonDto()
                     {
                         UUID = model.UUID,
                         Name = model.Name,
@@ -112,13 +134,13 @@ namespace RISE.PersonApi.Controllers
 
         [HttpGet]
         [Route("GetPersonByUUID")]
-        public async Task<IActionResult> GetPersonByUUID(Guid UUID)
+        public async Task<IActionResult> GetPersonByUUID(Guid uuid)
         {
             using (ResponseDataModel responseDataModel = new ResponseDataModel())
             {
                 try
                 {
-                    responseDataModel.Data = await personBl.GetPersonByUUID(UUID);
+                    responseDataModel.Data = await personBl.GetPersonByUUID(uuid);
                 }
                 catch (Exception ex)
                 {

@@ -15,5 +15,8 @@ namespace RISE.DataTransferObject
         public string Location { get; set; }
 
         public virtual PersonDto Person { get; set; }
+
+        //CUSTOM PROPERTIES
+        public string FullName { get; set; }
     }
 }

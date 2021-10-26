@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using RISE.BusinessLayer.Abstract;
 using RISE.Shared.Events;
+using RISE.Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace RISE.ReportDetailApi.Consumers
     public class ReportCreatedConsumer : IConsumer<ReportCreatedEvent>
     {
         private readonly IReportDetailBl reportDetailBl;
-        private readonly IPublishEndpoint publishEndpoint;
+        private readonly ISendEndpointProvider sendEndpointProvider;
 
-        public ReportCreatedConsumer(IReportDetailBl reportDetailBl, IPublishEndpoint publishEndpoint)
+        public ReportCreatedConsumer(IReportDetailBl reportDetailBl, ISendEndpointProvider sendEndpointProvider)
         {
             this.reportDetailBl = reportDetailBl;
-            this.publishEndpoint = publishEndpoint;
+            this.sendEndpointProvider = sendEndpointProvider;
         }
 
         public async Task Consume(ConsumeContext<ReportCreatedEvent> context)
@@ -33,7 +34,9 @@ namespace RISE.ReportDetailApi.Consumers
                     }
                 };
 
-                await publishEndpoint.Publish(reportDetailCreatedEvent);
+                ISendEndpoint sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsModel.ReportDetailCreatedQueueName}"));
+
+                await sendEndpoint.Send(reportDetailCreatedEvent);
             }
             catch (Exception ex)
             {
