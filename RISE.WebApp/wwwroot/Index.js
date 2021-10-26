@@ -6,12 +6,14 @@
     var contactView;
     var contactDetailsModal;
     var newContactModal;
+    var newContactDetailModal;
     var editContactModal;
 
     var reportView;
 
     var pageSizeContact;
     var addNewContact;
+    var addNewContactDetail;
     var refreshContact;
     var personNameModalTitle;
     var tableContact;
@@ -33,6 +35,13 @@
     var txtCompanyEditContact;
     var btnSaveEditContact;
 
+    var formNewContactDetail;
+    var txtPersonIdContactDetail;
+    var txtPhoneNumberNewContactDetail;
+    var txtEmailAddressNewContactDetail;
+    var txtLocationNewContactDetail;
+    var btnSaveNewContactDetail;
+
     $(document).ready(() => {
         init();
     });
@@ -49,6 +58,7 @@
 
         contactDetailsModal = $('#contactDetailsModal');
         newContactModal = $('#newContactModal');
+        newContactDetailModal = $('#newContactDetailModal');
         editContactModal = $('#editContactModal');
 
         pageSizeContact = $('#pageSizeContact');
@@ -56,6 +66,9 @@
 
         addNewContact = $('#addNewContact');
         $(addNewContact).on('click', addNewContact_click);
+
+        addNewContactDetail = $('#addNewContactDetail');
+        $(addNewContactDetail).on('click', addNewContactDetail_click);
 
         refreshContact = $('#refreshContact');
         $(refreshContact).on('click', refreshContact_click);
@@ -100,6 +113,21 @@
         btnSaveEditContact = $('#btnSaveEditContact');
         $(btnSaveEditContact).on('click', btnSaveEditContact_click);
 
+        formNewContactDetail = $('#formNewContactDetail');
+        $(formEditContact).validate({
+            rules: {
+                'txtPhoneNumberNewContactDetail': 'required',
+                'txtEmailAddressNewContactDetail': 'required',
+                'txtLocationNewContactDetail': 'required'
+            }
+        });
+        txtPersonIdContactDetail = $('#txtPersonIdContactDetail');
+        txtPhoneNumberNewContactDetail = $('#txtPhoneNumberNewContactDetail');
+        txtEmailAddressNewContactDetail = $('#txtEmailAddressNewContactDetail');
+        txtLocationNewContactDetail = $('#txtLocationNewContactDetail');
+        btnSaveNewContactDetail = $('#btnSaveNewContactDetail');
+        $(btnSaveNewContactDetail).on('click', btnSaveNewContactDetail_click);
+
         getContacts();
     };
 
@@ -123,6 +151,10 @@
         getContacts();
     };
 
+    btnSaveNewContactDetail_click = () => {
+        if ($(formNewContactDetail).valid()) addContactDetail();
+    };
+
     btnSaveNewContact_click = () => {
         if ($(formNewContact).valid()) addContact();
     };
@@ -136,6 +168,11 @@
         $(newContactModal).modal('show');
     };
 
+    addNewContactDetail_click = () => {
+        clearNewContactDetailForm();
+        $(newContactDetailModal).modal('show');
+    };
+
     refreshContact_click = () => {
         getContacts();
     };
@@ -146,16 +183,33 @@
         $(txtCompanyNewContact).val('');
         $(txtPhoneNumberNewContact).val('');
         $(txtEmailAddressNewContact).val('');
-        getCurrentLocation();
+        getCurrentLocationForNewContact();
     };
 
-    getCurrentLocation = () => {
+    clearNewContactDetailForm = () => {
+        $(txtPhoneNumberNewContactDetail).val('');
+        $(txtEmailAddressNewContactDetail).val('');
+        getCurrentLocationForNewContactDetail();
+    };
+
+    getCurrentLocationForNewContact = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((x) => {
                 var latitude = x.coords.latitude;
                 var longitude = x.coords.longitude;
                 var location = latitude + ',' + longitude;
                 $(txtLocationNewContact).val(location);
+            });
+        }
+    };
+
+    getCurrentLocationForNewContactDetail = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((x) => {
+                var latitude = x.coords.latitude;
+                var longitude = x.coords.longitude;
+                var location = latitude + ',' + longitude;
+                $(txtLocationNewContactDetail).val(location);
             });
         }
     };
@@ -185,6 +239,34 @@
             },
             () => {
                 $(editContactModal).modal('hide');
+            });
+    };
+
+    addContactDetail = () => {
+        var personId = $(txtPersonIdContactDetail).val();
+        var url = 'http://localhost:8002/api/PersonContact/CreateNewPersonContact';
+        var data = {
+            PersonId: personId,
+            PhoneNumber: $(txtPhoneNumberNewContactDetail).val(),
+            EmailAddress: $(txtEmailAddressNewContactDetail).val(),
+            Location: $(txtLocationNewContactDetail).val()
+        };
+        var jsonData = JSON.stringify(data);
+
+        ajaxRequest(url, 'POST', true, jsonData,
+            null,
+            (x, y, z) => {
+                if (x.HasError) {
+                    debugger;
+                }
+                else {
+                    getPersonContacts(personId);
+                }
+            },
+            (x, y) => {
+                debugger;
+            }, () => {
+                $(newContactDetailModal).modal('hide');
             });
     };
 
@@ -239,6 +321,30 @@
                 }
                 else {
                     getContacts();
+                }
+            },
+            (x, y) => {
+                debugger;
+            },
+            null);
+    };
+
+    deleteContactDetail = (uuid) => {
+        var personId = $(txtPersonIdContactDetail).val();
+        var url = 'http://localhost:8002/api/PersonContact/DeletePersonContact';
+        var data = {
+            UUID: uuid
+        };
+        var jsonData = JSON.stringify(data);
+
+        ajaxRequest(url, 'DELETE', true, jsonData,
+            null,
+            (x, y, z) => {
+                if (x.HasError) {
+                    debugger;
+                }
+                else {
+                    getPersonContacts(personId);
                 }
             },
             (x, y) => {
@@ -309,8 +415,12 @@
             },
             (x, y) => {
                 debugger;
-            },
-            null);
+            }, null);
+    };
+
+    showPersonDetailModal = (x) => {
+        $(txtPersonIdContactDetail).val(x);
+        $(contactDetailsModal).modal('show');
     };
 
     bindContact = (data) => {
@@ -357,25 +467,26 @@
             var emailAddress = data[index].EmailAddress;
             var location = data[index].Location;
             if (personName == '') personName = (data[index].Person.Name + ' ' + data[index].Person.Surname);
-            innerHtml += '<tr>';
+            if (addNewContactDetail)
+                innerHtml += '<tr>';
             innerHtml += '<td class="d-none">' + uuid + '</td>';
             innerHtml += '<td class="d-none">' + personId + '</td>';
             innerHtml += '<td class="text-left w-25">' + phoneNumber + '</td>';
             innerHtml += '<td class="text-left w-25">' + emailAddress + '</td>';
             innerHtml += '<td class="text-left w-25">' + location + '</td>';
             innerHtml += '<td class="text-center w-25">';
-            innerHtml += '<button class="btn btn-sm btn-outline-danger mr-2" onclick="" data-id="' + uuid + '"><i class="fa fa-eraser text-dark"></i></button>';
+            innerHtml += '<button class="btn btn-sm btn-outline-danger mr-2" onclick="deleteContactDetails(this)" data-id="' + uuid + '"><i class="fa fa-eraser text-dark"></i></button>';
             innerHtml += '</td>';
             innerHtml += '/<tr>';
         }
         $(tableContactDetail).html(innerHtml);
         $(personNameModalTitle).html(personName);
-        $(contactDetailsModal).modal('show');
     };
 
     showContactDetails = (e) => {
         var personId = $(e).data('id');
         getPersonContacts(personId);
+        showPersonDetailModal(personId);
     };
 
     showContactForEdit = (e) => {
@@ -386,6 +497,11 @@
     deleteContacts = (e) => {
         var uuid = $(e).data('id');
         if (confirm('Kaydı silmek istediğinizden emin misiniz?')) deleteContact(uuid);
+    };
+
+    deleteContactDetails = (e) => {
+        var uuid = $(e).data('id');
+        if (confirm('Kaydı silmek istediğinizden emin misiniz?')) deleteContactDetail(uuid);
     };
 
     ajaxRequest = (url, method, async, data, beforeSend, success, error, complete) => {

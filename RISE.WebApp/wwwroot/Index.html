@@ -89,119 +89,6 @@
                     </table>
                 </div>
             </div>
-
-            <div class="modal" tabindex="-1" id="editContactModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Kayıt Düzenle</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formEditContact">
-                                <input type="hidden" id="txtUUIDEditContact" name="txtUUIDEditContact" />
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtNameEditContact" name="txtNameEditContact" placeholder="Adı" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtSurnameEditContact" name="txtSurnameEditContact" placeholder="Soyadı" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtCompanyEditContact" name="txtCompanyEditContact" placeholder="Firması" required />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
-                            <button type="button" class="btn btn-sm btn-primary" id="btnSaveEditContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal" tabindex="-1" id="newContactModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Kayıt Ekle</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="formNewContact">
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtNameNewContact" name="txtNameNewContact" placeholder="Adı" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtSurnameNewContact" name="txtSurnameNewContact" placeholder="Soyadı" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtCompanyNewContact" name="txtCompanyNewContact" placeholder="Firması" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtPhoneNumberNewContact" name="txtPhoneNumberNewContact" placeholder="Telefon Numarası" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control" id="txtEmailAddressNewContact" name="txtEmailAddressNewContact" placeholder="E-Mail Adresi" required />
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="txtLocationNewContact" name="txtLocationNewContact" placeholder="Konum" readonly required />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
-                            <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal" tabindex="-1" id="contactDetailsModal">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="personNameModalTitle"></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row g-4 py-5">
-                                <div class="col-sm-12">
-                                    <table class="table table-striped w-100">
-                                        <thead>
-                                            <tr>
-                                                <td colspan="5" class="text-right">
-                                                    <button class="btn btn-sm btn-info" id="addNewContactDetail"><i class="fa fa-address-card mr-2"></i> Yeni kayıt</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <th class="d-none">UUID</th>
-                                                <th class="d-none">PersonId</th>
-                                                <th class="text-left w-25">Telefon Numarası</th>
-                                                <th class="text-left w-25">E-Mail Adresi</th>
-                                                <th class="text-left w-25">Konum</th>
-                                                <th class="text-center w-25">İşlemler</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tableContactDetail">
-                                            <tr>
-                                                <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="reportView" class="d-none">
             <h2 class="pb-2 border-bottom">Rapor</h2>
@@ -273,6 +160,147 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="editContactModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Düzenle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditContact">
+                            <input type="hidden" id="txtUUIDEditContact" name="txtUUIDEditContact" />
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtNameEditContact" name="txtNameEditContact" placeholder="Adı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtSurnameEditContact" name="txtSurnameEditContact" placeholder="Soyadı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtCompanyEditContact" name="txtCompanyEditContact" placeholder="Firması" required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveEditContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="newContactModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Ekle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNewContact">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtNameNewContact" name="txtNameNewContact" placeholder="Adı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtSurnameNewContact" name="txtSurnameNewContact" placeholder="Soyadı" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtCompanyNewContact" name="txtCompanyNewContact" placeholder="Firması" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtPhoneNumberNewContact" name="txtPhoneNumberNewContact" placeholder="Telefon Numarası" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" id="txtEmailAddressNewContact" name="txtEmailAddressNewContact" placeholder="E-Mail Adresi" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtLocationNewContact" name="txtLocationNewContact" placeholder="Konum" readonly required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContact"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="contactDetailsModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="personNameModalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4 py-5">
+                            <div class="col-sm-12">
+                                <input type="hidden" id="txtPersonIdContactDetail" name="txtPersonIdContactDetail" />
+                                <table class="table table-striped w-100">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <button class="btn btn-sm btn-info" id="addNewContactDetail"><i class="fa fa-address-card mr-2"></i> Yeni kayıt</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th class="d-none">UUID</th>
+                                            <th class="d-none">PersonId</th>
+                                            <th class="text-left w-25">Telefon Numarası</th>
+                                            <th class="text-left w-25">E-Mail Adresi</th>
+                                            <th class="text-left w-25">Konum</th>
+                                            <th class="text-center w-25">İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableContactDetail">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="newContactDetailModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Kayıt Ekle</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNewContactDetail">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtPhoneNumberNewContactDetail" name="txtPhoneNumberNewContactDetail" placeholder="Telefon Numarası" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control" id="txtEmailAddressNewContactDetail" name="txtEmailAddressNewContactDetail" placeholder="E-Mail Adresi" required />
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="txtLocationNewContactDetail" name="txtLocationNewContactDetail" placeholder="Konum" readonly required />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                        <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContactDetail"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
                 </div>
             </div>
         </div>

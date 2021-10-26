@@ -76,14 +76,7 @@ namespace RISE.PersonContactApi.Controllers
             {
                 try
                 {
-                    await personContactBl.DeletePersonContact(new PersonContactDto()
-                    {
-                        UUID = model.UUID,
-                        PersonId = model.PersonId,
-                        EmailAddress = model.EmailAddress,
-                        Location = model.Location,
-                        PhoneNumber = model.PhoneNumber
-                    });
+                    await personContactBl.DeletePersonContact(model.UUID);
                 }
                 catch (Exception ex)
                 {

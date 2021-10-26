@@ -49,7 +49,7 @@ namespace RISE.BusinessLayer.Concrete
             {
                 Person person = await unitOfWork.Person
                     .Select(x => x.UUID == uuid)
-                    .Include(x=>x.PersonContacts)
+                    .Include(x => x.PersonContacts)
                     .FirstOrDefaultAsync();
 
                 if (person != null) unitOfWork.Person.Delete(person);
@@ -119,17 +119,18 @@ namespace RISE.BusinessLayer.Concrete
         {
             try
             {
-                return await unitOfWork.Person.Select()
+                IQueryable<PersonDto> query = unitOfWork.Person.Select()
                     .Select(x => new PersonDto
                     {
                         UUID = x.UUID,
                         Name = x.Name,
                         Surname = x.Surname,
                         Company = x.Company
-                    })
-                    .Skip(pageIndex * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+                    });
+
+                if (pageSize != 0) query = query.Skip(pageIndex * pageSize).Take(pageSize);
+
+                return await query.ToListAsync();
             }
             catch
             {

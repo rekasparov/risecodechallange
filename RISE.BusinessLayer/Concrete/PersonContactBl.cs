@@ -41,12 +41,12 @@ namespace RISE.BusinessLayer.Concrete
             }
         }
 
-        public async Task DeletePersonContact(PersonContactDto model)
+        public async Task DeletePersonContact(Guid uuid)
         {
             try
             {
                 PersonContact personContact = await unitOfWork.PersonContact
-                    .Select(x => x.UUID == model.UUID)
+                    .Select(x => x.UUID == uuid)
                     .FirstOrDefaultAsync();
 
                 if (personContact != null) unitOfWork.PersonContact.Delete(personContact);

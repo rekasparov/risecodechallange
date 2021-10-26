@@ -10,7 +10,7 @@ namespace RISE.BusinessLayer.Abstract
     public interface IPersonContactBl
     {
         Task CreateNewPersonContact(PersonContactDto model);
-        Task DeletePersonContact(PersonContactDto model);
+        Task DeletePersonContact(Guid uuid);
         Task<List<PersonContactDto>> GetPersonContactsByPersonId(Guid personId);
     }
 }
