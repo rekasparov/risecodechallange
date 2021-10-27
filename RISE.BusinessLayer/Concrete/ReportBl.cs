@@ -47,16 +47,18 @@ namespace RISE.BusinessLayer.Concrete
         {
             try
             {
-                return await unitOfWork.Report.Select()
+                IQueryable<ReportDto> query = unitOfWork.Report.Select()
                     .Select(x => new ReportDto
                     {
                         UUID = x.UUID,
                         RequestDate = x.RequestDate,
                         Status = x.Status
                     })
-                    .Skip(pageIndex * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+                    .OrderByDescending(x => x.RequestDate);
+
+                if (pageSize != 0) query = query.Skip(pageIndex * pageSize).Take(pageSize);
+
+                return await query.ToListAsync();
             }
             catch
             {

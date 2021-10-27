@@ -21,14 +21,14 @@ namespace RISE.ReportDetailApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetReportDetailByReportUUID")]
-        public async Task<IActionResult> GetReportDetailByReportUUID(Guid reportId)
+        [Route("GetReportDetailsByReportId")]
+        public async Task<IActionResult> GetReportDetailsByReportId(Guid reportId)
         {
             using (ResponseDataModel responseDataModel = new ResponseDataModel())
             {
                 try
                 {
-                    responseDataModel.Data = await reportDetailBl.GetReportDetailByReportUUID(reportId);
+                    responseDataModel.Data = await reportDetailBl.GetReportDetailsByReportId(reportId);
                 }
                 catch (Exception ex)
                 {
