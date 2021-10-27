@@ -65,27 +65,6 @@
                                 <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" class="text-left">
-                                    <nav aria-label="...">
-                                        <ul class="pagination pagination-sm" id="pagingContact">
-                                            <li class="page-item disabled">
-                                                <span class="page-link">Previous</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item active" aria-current="page">
-                                                <span class="page-link">2</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -99,7 +78,7 @@
                             <tr>
                                 <td colspan="2" class="text-left form-inline">
                                     <span class="mr-2">Kayıt sayısı:</span>
-                                    <select class="custom-select custom-select-sm">
+                                    <select class="custom-select custom-select-sm" id="pageSizeReport">
                                         <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
@@ -107,8 +86,8 @@
                                     </select>
                                 </td>
                                 <td colspan="3" class="text-right">
-                                    <button class="btn btn-sm btn-info"><i class="fa fa-chart-line mr-2"></i> Yeni rapor talebi</button>
-                                    <button class="btn btn-sm btn-secondary"><i class="fa fa-sync-alt"></i></button>
+                                    <button class="btn btn-sm btn-info" id="createNewReport"><i class="fa fa-chart-line mr-2"></i> Yeni rapor talebi</button>
+                                    <button class="btn btn-sm btn-secondary" id="refreshReport"><i class="fa fa-sync-alt"></i></button>
                                 </td>
                             </tr>
                             <tr>
@@ -118,47 +97,11 @@
                                 <th class="text-center w-25">İşlemler</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tableReport">
                             <tr>
-                                <td class="d-none"></td>
-                                <td class="text-left w-25">24.10.2021 13:26:24</td>
-                                <td class="text-left w-50 text-secondary">Hazırlanıyor</td>
-                                <td class="text-center w-25">
-                                    <button class="btn btn-sm btn-outline-primary mr-2 disabled" disabled><i class="fa fa-eye text-dark"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger mr-2 disabled" disabled><i class="fa fa-eraser text-dark"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="d-none"></td>
-                                <td class="text-left w-25">24.10.2021 13:26:24</td>
-                                <td class="text-left w-50 text-primary">Hazır</td>
-                                <td class="text-center w-25">
-                                    <button class="btn btn-sm btn-outline-primary mr-2"><i class="fa fa-eye text-dark"></i></button>
-                                    <button class="btn btn-sm btn-outline-danger mr-2"><i class="fa fa-eraser text-dark"></i></button>
-                                </td>
+                                <td colspan="4" class="text-center">Görüntülenecek bir veri bulunamadı</td>
                             </tr>
                         </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" class="text-left">
-                                    <nav aria-label="...">
-                                        <ul class="pagination pagination-sm">
-                                            <li class="page-item disabled">
-                                                <span class="page-link">Previous</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                            <li class="page-item active" aria-current="page">
-                                                <span class="page-link">2</span>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                            <li class="page-item">
-                                                <a class="page-link" href="#">Next</a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -300,6 +243,62 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
                         <button type="button" class="btn btn-sm btn-primary" id="btnSaveNewContactDetail"><i class="fa fa-save mr-2"></i> Kaydet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="newReportModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Yeni Rapor Talebi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <h6>Rapor talebiniz alınmıştır.</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" tabindex="-1" id="reportDetailsModal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Rapor Detayları</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4 py-5">
+                            <div class="col-sm-12">
+                                <input type="hidden" id="txtReportIdContactDetail" name="txtReportIdContactDetail" />
+                                <table class="table table-striped w-100">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none">UUID</th>
+                                            <th class="d-none">ReportId</th>
+                                            <th class="text-left w-50">Konum</th>
+                                            <th class="text-left w-25">Personel Sayısı</th>
+                                            <th class="text-left w-25">Telefon Numarası Sayısı</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableReportDetail">
+                                        <tr>
+                                            <td colspan="5" class="text-center">Görüntülenecek bir veri bulunamadı</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal"><i class="fa fa-window-close mr-2"></i> Kapat</button>
                     </div>
                 </div>
             </div>

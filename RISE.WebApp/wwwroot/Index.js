@@ -8,17 +8,23 @@
     var newContactModal;
     var newContactDetailModal;
     var editContactModal;
+    var newReportModal;
+    var reportDetailsModal;
 
     var reportView;
 
     var pageSizeContact;
+    var pageSizeReport;
     var addNewContact;
     var addNewContactDetail;
+    var createNewReport;
     var refreshContact;
+    var refreshReport;
     var personNameModalTitle;
     var tableContact;
     var tableContactDetail;
-    var pagingContact;
+    var tableReport;
+    var tableReportDetail;
 
     var formNewContact;
     var txtNameNewContact;
@@ -42,6 +48,8 @@
     var txtLocationNewContactDetail;
     var btnSaveNewContactDetail;
 
+    var txtReportIdContactDetail;
+
     $(document).ready(() => {
         init();
     });
@@ -60,9 +68,14 @@
         newContactModal = $('#newContactModal');
         newContactDetailModal = $('#newContactDetailModal');
         editContactModal = $('#editContactModal');
+        newReportModal = $('#newReportModal');
+        reportDetailsModal = $('#reportDetailsModal');
 
         pageSizeContact = $('#pageSizeContact');
         $(pageSizeContact).on('change', pageSizeContact_change);
+
+        pageSizeReport = $('#pageSizeReport');
+        $(pageSizeReport).on('change', pageSizeReport_change);
 
         addNewContact = $('#addNewContact');
         $(addNewContact).on('click', addNewContact_click);
@@ -70,13 +83,20 @@
         addNewContactDetail = $('#addNewContactDetail');
         $(addNewContactDetail).on('click', addNewContactDetail_click);
 
+        createNewReport = $('#createNewReport');
+        $(createNewReport).on('click', createNewReport_click);
+
         refreshContact = $('#refreshContact');
         $(refreshContact).on('click', refreshContact_click);
+
+        refreshReport = $('#refreshReport');
+        $(refreshReport).on('click', refreshReport_click);
 
         personNameModalTitle = $('#personNameModalTitle');
         tableContact = $('#tableContact');
         tableContactDetail = $('#tableContactDetail');
-        pagingContact = $('#pagingContact');
+        tableReport = $('#tableReport');
+        tableReportDetail = $('#tableReportDetail');
 
         formNewContact = $('#formNewContact');
         $(formNewContact).validate({
@@ -128,7 +148,10 @@
         btnSaveNewContactDetail = $('#btnSaveNewContactDetail');
         $(btnSaveNewContactDetail).on('click', btnSaveNewContactDetail_click);
 
+        txtReportIdContactDetail = $('#txtReportIdContactDetail');
+
         getContacts();
+        getReports();
     };
 
     contactNav_click = () => {
@@ -149,6 +172,10 @@
 
     pageSizeContact_change = () => {
         getContacts();
+    };
+
+    pageSizeReport_change = () => {
+        getReports();
     };
 
     btnSaveNewContactDetail_click = () => {
@@ -173,8 +200,16 @@
         $(newContactDetailModal).modal('show');
     };
 
+    createNewReport_click = () => {
+        createReport();
+    };
+
     refreshContact_click = () => {
         getContacts();
+    };
+
+    refreshReport_click = () => {
+        getReports();
     };
 
     clearNewContactForm = () => {
@@ -212,6 +247,26 @@
                 $(txtLocationNewContactDetail).val(location);
             });
         }
+    };
+
+    createReport = () => {
+        var url = 'http://localhost:8004/api/Report/CreateReport';
+
+        ajaxRequest(url, 'POST', true, null,
+            null,
+            (x, y, z) => {
+                if (x.HasError) {
+                    debugger;
+                }
+                else {
+                    getReports();
+                }
+            },
+            (x, y) => {
+                debugger;
+            }, () => {
+                $(newReportModal).modal('show');
+            });
     };
 
     editContact = () => {
@@ -398,6 +453,30 @@
             null);
     };
 
+    getReports = () => {
+        var pageSize = $(pageSizeReport).val();
+        var pageIndex = 0;
+
+        var baseUrl = 'http://localhost:8004/api/Report/GetReportList';
+        var parameters = '?pageIndex=' + pageIndex + '&pageSize=' + pageSize;
+        var url = baseUrl + parameters;
+
+        ajaxRequest(url, 'GET', true, null,
+            null,
+            (x, y, z) => {
+                if (x.HasError) {
+                    debugger;
+                }
+                else {
+                    bindReports(x.Data);
+                }
+            },
+            (x, y) => {
+                debugger;
+            },
+            null);
+    };
+
     getPersonContacts = (personId) => {
         var baseUrl = 'http://localhost:8002/api/PersonContact/GetPersonContactsByPersonId';
         var parameters = '?personId=' + personId;
@@ -418,9 +497,33 @@
             }, null);
     };
 
+    getReportDetails = (reportId) => {
+        var baseUrl = 'http://localhost:8006/api/ReportDetail/GetReportDetailsByReportId';
+        var parameters = '?reportId=' + reportId;
+        var url = baseUrl + parameters;
+
+        ajaxRequest(url, 'GET', true, null,
+            null,
+            (x, y, z) => {
+                if (x.HasError) {
+                    debugger;
+                }
+                else {
+                    bindReportDetails(x.Data);
+                }
+            },
+            (x, y) => {
+                debugger;
+            }, null);
+    };
+
     showPersonDetailModal = (x) => {
         $(txtPersonIdContactDetail).val(x);
         $(contactDetailsModal).modal('show');
+    };
+
+    showReportDetailModal = () => {
+        $(reportDetailsModal).modal('show');
     };
 
     bindContact = (data) => {
@@ -457,6 +560,31 @@
         $(tableContact).html(innerHtml);
     };
 
+    bindReports = (data) => {
+        var innerHtml = '';
+        for (var index = 0; index < data.length; index++) {
+            var uuid = data[index].UUID;
+            var requestDate = data[index].RequestDate;
+            var status = data[index].Status;
+            var statusStr = status == true ? 'Rapor Hazırlandı' : 'Hazırlanıyor';
+            var textColor = status == true ? 'text-primary' : 'text-secondary';
+            innerHtml += '<tr>';
+            innerHtml += '<td class="d-none">' + uuid + '</td>';
+            innerHtml += '<td class="text-left w-25">' + requestDate + '</td>';
+            innerHtml += '<td class="text-left w-50 ' + textColor + '">' + statusStr + '</td>';
+            innerHtml += '<td class="text-center w-25">';
+            if (status === true) {
+                innerHtml += '<button class="btn btn-sm btn-outline-primary mr-2" onclick="showReportDetails(this)" data-id="' + uuid + '"><i class="fa fa-eye text-dark"></i></button>';
+            }
+            else {
+                innerHtml += '<button class="btn btn-sm btn-outline-primary mr-2 disabled" disabled><i class="fa fa-eye text-dark"></i></button>';
+            }
+            innerHtml += '</td>';
+            innerHtml += '</tr>';
+        }
+        $(tableReport).html(innerHtml);
+    };
+
     bindPersonContacts = (data) => {
         var innerHtml = '';
         var personName = '';
@@ -467,8 +595,7 @@
             var emailAddress = data[index].EmailAddress;
             var location = data[index].Location;
             if (personName == '') personName = (data[index].Person.Name + ' ' + data[index].Person.Surname);
-            if (addNewContactDetail)
-                innerHtml += '<tr>';
+            innerHtml += '<tr>';
             innerHtml += '<td class="d-none">' + uuid + '</td>';
             innerHtml += '<td class="d-none">' + personId + '</td>';
             innerHtml += '<td class="text-left w-25">' + phoneNumber + '</td>';
@@ -483,10 +610,36 @@
         $(personNameModalTitle).html(personName);
     };
 
+    bindReportDetails = (data) => {
+        var innerHtml = '';
+        for (var index = 0; index < data.length; index++) {
+            var uuid = data[index].UUID;
+            var reportId = data[index].ReportId;
+            var location = data[index].Location;
+            var personCount = data[index].PersonCount;
+            var phoneNumberCount = data[index].PhoneNumberCount;
+            innerHtml += '<tr>';
+            innerHtml += '<td class="d-none">' + uuid + '</td>';
+            innerHtml += '<td class="d-none">' + reportId + '</td>';
+            innerHtml += '<td class="text-left w-50">' + location + '</td>';
+            innerHtml += '<td class="text-left w-25">' + personCount + '</td>';
+            innerHtml += '<td class="text-left w-25">' + phoneNumberCount + '</td>';
+            innerHtml += '</td>';
+            innerHtml += '/<tr>';
+        }
+        $(tableReportDetail).html(innerHtml);
+    };
+
     showContactDetails = (e) => {
         var personId = $(e).data('id');
         getPersonContacts(personId);
         showPersonDetailModal(personId);
+    };
+
+    showReportDetails = (e) => {
+        var reportId = $(e).data('id');
+        getReportDetails(reportId);
+        showReportDetailModal(reportId);
     };
 
     showContactForEdit = (e) => {
