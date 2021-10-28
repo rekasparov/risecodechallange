@@ -2,6 +2,8 @@
 using RISE.DataAccessLayer.Abstract;
 using RISE.DataAccessLayer.Concrete;
 using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
+using RISE.Entity.REPORTTESTDB;
 using RISE.UnitOfWork.Abstract;
 using System;
 using System.Collections.Generic;
@@ -13,42 +15,64 @@ namespace RISE.UnitOfWork.Concrete
 {
     public class BaseUnitOfWork : IBaseUnitOfWork
     {
-        private static readonly object locker = new object();
+        private static readonly object lockerForPerson = new object();
+        private static readonly object lockerForReport = new object();
 
-        private static DbContext _dbContext;
+        private static DbContext _personDbContext;
 
-        private static DbContext dbContext
+        private static DbContext personDbContext
         {
             get
             {
-                if (_dbContext == null)
+                if (_personDbContext == null)
                 {
-                    lock (locker)
+                    lock (lockerForPerson)
                     {
-                        if (_dbContext == null)
+                        if (_personDbContext == null)
                         {
-                            _dbContext = new RISETESTDBContext();
+                            _personDbContext = new PERSONTESTDBContext();
                         }
                     }
                 }
 
-                return _dbContext;
+                return _personDbContext;
             }
         }
 
-        public IPersonDal Person => new PersonDal(dbContext);
+        private static DbContext _reportDbContext;
 
-        public IPersonContactDal PersonContact => new PersonContactDal(dbContext);
+        private static DbContext reportDbContext
+        {
+            get
+            {
+                if (_reportDbContext == null)
+                {
+                    lock (lockerForPerson)
+                    {
+                        if (_reportDbContext == null)
+                        {
+                            _reportDbContext = new REPORTTESTDBContext();
+                        }
+                    }
+                }
 
-        public IReportDal Report => new ReportDal(dbContext);
+                return _reportDbContext;
+            }
+        }
 
-        public IReportDetailDal ReportDetail => new ReportDetailDal(dbContext);
+        public IPersonDal Person => new PersonDal(personDbContext);
 
-        public async Task<int> CommitAsync()
+        public IPersonContactDal PersonContact => new PersonContactDal(personDbContext);
+
+        public IReportDal Report => new ReportDal(reportDbContext);
+
+        public IReportDetailDal ReportDetail => new ReportDetailDal(reportDbContext);
+
+        public async Task<int> PersonCommitAsync()
         {
             try
             {
-                return await dbContext.SaveChangesAsync();
+                return await personDbContext.SaveChangesAsync();
             }
             catch
             {
@@ -56,12 +80,37 @@ namespace RISE.UnitOfWork.Concrete
             }
         }
 
-        public async Task RollBackAsync()
+        public async Task<int> ReportCommitAsync()
         {
             try
             {
-                await dbContext.DisposeAsync();
-                await _dbContext.DisposeAsync();
+                return await reportDbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task PersonRollBackAsync()
+        {
+            try
+            {
+                if (personDbContext != null) await personDbContext.DisposeAsync();
+                if (_personDbContext != null) await _personDbContext.DisposeAsync();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task ReportRollBackAsync()
+        {
+            try
+            {
+                if (reportDbContext != null) await reportDbContext.DisposeAsync();
+                if (_reportDbContext != null) await _reportDbContext.DisposeAsync();
             }
             catch
             {

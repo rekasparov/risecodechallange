@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RISE.Entity
+namespace RISE.Entity.REPORTTESTDB
 {
     public partial class ReportDetail
     {

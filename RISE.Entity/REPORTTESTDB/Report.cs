@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace RISE.Entity
+namespace RISE.Entity.REPORTTESTDB
 {
     public partial class Report
     {
