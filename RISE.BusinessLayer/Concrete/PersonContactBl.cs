@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
-using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -31,11 +31,11 @@ namespace RISE.BusinessLayer.Concrete
 
                 unitOfWork.PersonContact.Insert(personContact);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -51,12 +51,12 @@ namespace RISE.BusinessLayer.Concrete
 
                 if (personContact != null) unitOfWork.PersonContact.Delete(personContact);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
 
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -88,7 +88,7 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }

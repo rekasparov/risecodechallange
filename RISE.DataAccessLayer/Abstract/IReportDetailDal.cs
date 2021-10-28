@@ -1,4 +1,4 @@
-﻿using RISE.Entity;
+﻿using RISE.Entity.REPORTTESTDB;
 using RISE.Repository.Abstract;
 using System;
 using System.Collections.Generic;

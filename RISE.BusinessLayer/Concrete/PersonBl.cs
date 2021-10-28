@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
-using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -31,13 +31,13 @@ namespace RISE.BusinessLayer.Concrete
 
                 unitOfWork.Person.Insert(person);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
 
                 return uuid;
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -54,12 +54,12 @@ namespace RISE.BusinessLayer.Concrete
 
                 if (person != null) unitOfWork.Person.Delete(person);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
 
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -82,12 +82,12 @@ namespace RISE.BusinessLayer.Concrete
 
                 unitOfWork.Person.Update(person);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
 
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -109,7 +109,7 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -134,7 +134,7 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }

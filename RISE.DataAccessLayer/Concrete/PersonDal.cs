@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.DataAccessLayer.Abstract;
-using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
 using RISE.Repository.Concrete;
 using System;
 using System.Collections.Generic;

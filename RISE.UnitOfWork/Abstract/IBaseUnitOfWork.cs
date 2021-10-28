@@ -14,7 +14,10 @@ namespace RISE.UnitOfWork.Abstract
         IReportDal Report { get; }
         IReportDetailDal ReportDetail { get; }
 
-        Task<int> CommitAsync();
-        Task RollBackAsync();
+        Task<int> PersonCommitAsync();
+        Task PersonRollBackAsync();
+
+        Task<int> ReportCommitAsync();
+        Task ReportRollBackAsync();
     }
 }
