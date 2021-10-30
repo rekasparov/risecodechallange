@@ -2,18 +2,16 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RISE.Entity.PERSONTESTDB;
 
-namespace RISE.Entity.Migrations
+namespace RISE.Entity.Migrations.PERSONTESTDB
 {
     [DbContext(typeof(PERSONTESTDBContext))]
-    [Migration("20211028150252_InitialPersonTestDb")]
-    partial class InitialPersonTestDb
+    partial class PERSONTESTDBContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

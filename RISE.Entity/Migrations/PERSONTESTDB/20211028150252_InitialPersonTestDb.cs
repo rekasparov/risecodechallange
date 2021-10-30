@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace RISE.Entity.Migrations
+namespace RISE.Entity.Migrations.PERSONTESTDB
 {
     public partial class InitialPersonTestDb : Migration
     {
