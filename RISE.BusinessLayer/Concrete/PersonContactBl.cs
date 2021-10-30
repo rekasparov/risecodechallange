@@ -62,6 +62,22 @@ namespace RISE.BusinessLayer.Concrete
             }
         }
 
+        public async Task<List<string>> GetLocationList()
+        {
+            try
+            {
+                List<string> locationList = await unitOfWork.PersonContact.Select().Select(x => x.Location).Distinct().ToListAsync();
+
+                return locationList;
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
+
+                throw;
+            }
+        }
+
         public async Task<List<PersonContactDto>> GetPersonContactsByPersonId(Guid personId)
         {
             try
@@ -89,6 +105,34 @@ namespace RISE.BusinessLayer.Concrete
             catch
             {
                 await unitOfWork.PersonRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task<int> GetPersonCountByLocation(string location)
+        {
+            try
+            {
+                return await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PersonId).Distinct().CountAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task<int> GetPhoneNumberCountByLocation(string location)
+        {
+            try
+            {
+                return await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PhoneNumber).CountAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }

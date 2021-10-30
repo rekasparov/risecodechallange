@@ -43,6 +43,18 @@ namespace RISE.Repository.Concrete
             }
         }
 
+        public void InsertRange(IList<T> enitity)
+        {
+            try
+            {
+                dbContext.AddRange(enitity);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public IQueryable<T> Select(Expression<Func<T, bool>> predicate = null)
         {
             try
