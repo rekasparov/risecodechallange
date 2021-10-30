@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
-using RISE.Entity;
+using RISE.Entity.REPORTTESTDB;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -31,13 +31,31 @@ namespace RISE.BusinessLayer.Concrete
 
                 unitOfWork.Report.Insert(report);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.ReportCommitAsync();
 
                 return uuid;
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.ReportRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task DeleteReport(Guid uuid)
+        {
+            try
+            {
+                Report report = await unitOfWork.Report.Select(x => x.UUID == uuid).FirstOrDefaultAsync();
+
+                if (report != null) unitOfWork.Report.Delete(report);
+
+                await unitOfWork.ReportCommitAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }
@@ -62,7 +80,7 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }
@@ -76,11 +94,11 @@ namespace RISE.BusinessLayer.Concrete
 
                 if (report != null) report.Status = true;
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.ReportCommitAsync();
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }

@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.ReportDetailApi", "RIS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.Shared", "RISE.Shared\RISE.Shared.csproj", "{0403F399-8E14-4D36-9383-8E5902E42EE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RISE.WebApp", "RISE.WebApp\RISE.WebApp.csproj", "{EB9208D5-F8BD-4428-8628-CD3BE67B334E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RISE.WebApp", "RISE.WebApp\RISE.WebApp.csproj", "{EB9208D5-F8BD-4428-8628-CD3BE67B334E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RISE.Test", "RISE.Test\RISE.Test.csproj", "{5FBF81D0-7D2A-4D72-AB3A-FF76BB2B5D82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{EB9208D5-F8BD-4428-8628-CD3BE67B334E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB9208D5-F8BD-4428-8628-CD3BE67B334E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB9208D5-F8BD-4428-8628-CD3BE67B334E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FBF81D0-7D2A-4D72-AB3A-FF76BB2B5D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FBF81D0-7D2A-4D72-AB3A-FF76BB2B5D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FBF81D0-7D2A-4D72-AB3A-FF76BB2B5D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FBF81D0-7D2A-4D72-AB3A-FF76BB2B5D82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

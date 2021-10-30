@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
-using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -31,11 +31,11 @@ namespace RISE.BusinessLayer.Concrete
 
                 unitOfWork.PersonContact.Insert(personContact);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
 
                 throw;
             }
@@ -51,12 +51,28 @@ namespace RISE.BusinessLayer.Concrete
 
                 if (personContact != null) unitOfWork.PersonContact.Delete(personContact);
 
-                await unitOfWork.CommitAsync();
+                await unitOfWork.PersonCommitAsync();
 
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task<List<string>> GetLocationList()
+        {
+            try
+            {
+                List<string> locationList = await unitOfWork.PersonContact.Select().Select(x => x.Location).Distinct().ToListAsync();
+
+                return locationList;
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }
@@ -88,7 +104,35 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.PersonRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task<int> GetPersonCountByLocation(string location)
+        {
+            try
+            {
+                return await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PersonId).Distinct().CountAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
+
+                throw;
+            }
+        }
+
+        public async Task<int> GetPhoneNumberCountByLocation(string location)
+        {
+            try
+            {
+                return await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PhoneNumber).CountAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }

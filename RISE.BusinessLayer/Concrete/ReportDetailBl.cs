@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RISE.BusinessLayer.Abstract;
 using RISE.DataTransferObject;
-using RISE.Entity;
+using RISE.Entity.REPORTTESTDB;
 using RISE.UnitOfWork.Abstract;
 using RISE.UnitOfWork.Concrete;
 using System;
@@ -32,39 +32,30 @@ namespace RISE.BusinessLayer.Concrete
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }
         }
 
-        public async Task CreateReportByReportId(Guid reportId)
+        public async Task CreateReport(List<ReportDetailDto> model)
         {
             try
             {
-                List<string> locationList = await unitOfWork.PersonContact.Select().Select(x => x.Location).Distinct().ToListAsync();
-
-                foreach (var location in locationList)
+                unitOfWork.ReportDetail.InsertRange(model.Select(x => new ReportDetail()
                 {
-                    int personCount = await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PersonId).Distinct().CountAsync();
+                    UUID = x.UUID,
+                    ReportId = x.ReportId,
+                    Location = x.Location,
+                    PersonCount = x.PersonCount,
+                    PhoneNumberCount = x.PhoneNumberCount
+                }).ToList());
 
-                    int phoneNumberCount = await unitOfWork.PersonContact.Select(x => x.Location == location).Select(x => x.PhoneNumber).CountAsync();
-
-                    unitOfWork.ReportDetail.Insert(new ReportDetail()
-                    {
-                        UUID = Guid.NewGuid(),
-                        ReportId = reportId,
-                        Location = location,
-                        PersonCount = personCount,
-                        PhoneNumberCount = phoneNumberCount
-                    });
-                }
-
-                await unitOfWork.CommitAsync();
+                await unitOfWork.ReportCommitAsync();
             }
             catch
             {
-                await unitOfWork.RollBackAsync();
+                await unitOfWork.ReportRollBackAsync();
 
                 throw;
             }

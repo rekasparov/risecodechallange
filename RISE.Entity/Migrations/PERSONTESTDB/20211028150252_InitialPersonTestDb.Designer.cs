@@ -2,25 +2,26 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using RISE.Entity;
+using RISE.Entity.PERSONTESTDB;
 
-namespace RISE.Entity.Migrations
+namespace RISE.Entity.Migrations.PERSONTESTDB
 {
-    [DbContext(typeof(RISETESTDBContext))]
-    partial class RISETESTDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(PERSONTESTDBContext))]
+    [Migration("20211028150252_InitialPersonTestDb")]
+    partial class InitialPersonTestDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:Collation", "Turkish_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("RISE.Entity.Person", b =>
+            modelBuilder.Entity("RISE.Entity.PERSONTESTDB.Person", b =>
                 {
                     b.Property<Guid>("UUID")
                         .HasColumnType("uuid");
@@ -48,7 +49,7 @@ namespace RISE.Entity.Migrations
                     b.ToTable("Person");
                 });
 
-            modelBuilder.Entity("RISE.Entity.PersonContact", b =>
+            modelBuilder.Entity("RISE.Entity.PERSONTESTDB.PersonContact", b =>
                 {
                     b.Property<Guid>("UUID")
                         .HasColumnType("uuid");
@@ -81,77 +82,20 @@ namespace RISE.Entity.Migrations
                     b.ToTable("PersonContact");
                 });
 
-            modelBuilder.Entity("RISE.Entity.Report", b =>
+            modelBuilder.Entity("RISE.Entity.PERSONTESTDB.PersonContact", b =>
                 {
-                    b.Property<Guid>("UUID")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("RequestDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("UUID");
-
-                    b.ToTable("Report");
-                });
-
-            modelBuilder.Entity("RISE.Entity.ReportDetail", b =>
-                {
-                    b.Property<Guid>("UUID")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ReportId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Location")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int>("PersonCount")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("PhoneNumberCount")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UUID", "ReportId");
-
-                    b.HasIndex("ReportId");
-
-                    b.ToTable("ReportDetail");
-                });
-
-            modelBuilder.Entity("RISE.Entity.PersonContact", b =>
-                {
-                    b.HasOne("RISE.Entity.Person", "Person")
+                    b.HasOne("RISE.Entity.PERSONTESTDB.Person", "Person")
                         .WithMany("PersonContacts")
                         .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Person");
                 });
 
-            modelBuilder.Entity("RISE.Entity.ReportDetail", b =>
-                {
-                    b.HasOne("RISE.Entity.Report", "Report")
-                        .WithMany("ReportDetails")
-                        .HasForeignKey("ReportId")
-                        .IsRequired();
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("RISE.Entity.Person", b =>
+            modelBuilder.Entity("RISE.Entity.PERSONTESTDB.Person", b =>
                 {
                     b.Navigation("PersonContacts");
-                });
-
-            modelBuilder.Entity("RISE.Entity.Report", b =>
-                {
-                    b.Navigation("ReportDetails");
                 });
 #pragma warning restore 612, 618
         }
