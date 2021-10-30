@@ -11,5 +11,6 @@ namespace RISE.Shared.Models
         public const string PersonCreatedQueueName = "person-created-queue";
         public const string ReportCreatedQueueName = "report-created-queue";
         public const string ReportDetailCreatedQueueName = "report-detail-created-queue";
+        public const string ReportDetailNotCreatedQueueName = "report-detail-not-created-queue";
     }
 }

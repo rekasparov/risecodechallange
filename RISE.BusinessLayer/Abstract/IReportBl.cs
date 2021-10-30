@@ -10,6 +10,7 @@ namespace RISE.BusinessLayer.Abstract
     public interface IReportBl
     {
         Task<Guid> CreateReport();
+        Task DeleteReport(Guid uuid);
         Task UpdateStatus(Guid uuid);
         Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize);
     }

@@ -43,6 +43,24 @@ namespace RISE.BusinessLayer.Concrete
             }
         }
 
+        public async Task DeleteReport(Guid uuid)
+        {
+            try
+            {
+                Report report = await unitOfWork.Report.Select(x => x.UUID == uuid).FirstOrDefaultAsync();
+
+                if (report != null) unitOfWork.Report.Delete(report);
+
+                await unitOfWork.ReportCommitAsync();
+            }
+            catch
+            {
+                await unitOfWork.ReportRollBackAsync();
+
+                throw;
+            }
+        }
+
         public async Task<List<ReportDto>> GetReportList(int pageIndex, int pageSize)
         {
             try

@@ -62,6 +62,18 @@ namespace RISE.ReportDetailApi.Consumers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error={ex.Message}");
+
+                ReportDetailNotCreatedEvent reportDetailNotCreatedEvent = new ReportDetailNotCreatedEvent()
+                {
+                    ReportDetailNotCreatedMessage = new ReportDetailNotCreatedEvent.ReportDetailNotCreatedMessageModel()
+                    {
+                        UUID = context.Message.ReportCreatedMessage.ReportId
+                    }
+                };
+
+                ISendEndpoint sendEndpoint = await sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsModel.ReportDetailNotCreatedQueueName}"));
+
+                await sendEndpoint.Send(reportDetailNotCreatedEvent);
             }
         }
 
