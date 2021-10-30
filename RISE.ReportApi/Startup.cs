@@ -32,6 +32,7 @@ namespace RISE.ReportApi
             services.AddMassTransit(x =>
             {
                 x.AddConsumer<ReportDetailCreatedConsumer>();
+                x.AddConsumer<ReportDetailNotCreatedConsumer>();
 
                 x.UsingRabbitMq((context, config) =>
                 {
@@ -39,7 +40,12 @@ namespace RISE.ReportApi
 
                     config.ReceiveEndpoint(RabbitMQSettingsModel.ReportDetailCreatedQueueName, y =>
                     {
-                        y.ConfigureConsumer<ReportDetailCreatedConsumer>(context);
+                        y.ConfigureConsumer<ReportDetailCreatedConsumer>(context);                        
+                    });
+
+                    config.ReceiveEndpoint(RabbitMQSettingsModel.ReportDetailNotCreatedQueueName, y =>
+                    {
+                        y.ConfigureConsumer<ReportDetailNotCreatedConsumer>(context);
                     });
                 });
             });
