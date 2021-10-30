@@ -12,6 +12,7 @@ namespace RISE.Repository.Abstract
     {
         IQueryable<T> Select(Expression<Func<T, bool>> predicate = null);
         void Insert(T enitity);
+        void InsertRange(IList<T> enitity);
         void Update(T enitity);
         void Delete(T enitity);
     }

@@ -12,5 +12,8 @@ namespace RISE.BusinessLayer.Abstract
         Task CreateNewPersonContact(PersonContactDto model);
         Task DeletePersonContact(Guid uuid);
         Task<List<PersonContactDto>> GetPersonContactsByPersonId(Guid personId);
+        Task<List<string>> GetLocationList();
+        Task<int> GetPersonCountByLocation(string location);
+        Task<int> GetPhoneNumberCountByLocation(string location);
     }
 }

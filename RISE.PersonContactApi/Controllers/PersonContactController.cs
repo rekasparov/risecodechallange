@@ -42,6 +42,66 @@ namespace RISE.PersonContactApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("GetLocationList")]
+        public async Task<IActionResult> GetLocationList()
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    responseDataModel.Data = await personContactBl.GetLocationList();
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetPersonCountByLocation")]
+        public async Task<IActionResult> GetPersonCountByLocation(string location)
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    responseDataModel.Data = await personContactBl.GetPersonCountByLocation(location);
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetPhoneNumberCountByLocation")]
+        public async Task<IActionResult> GetPhoneNumberCountByLocation(string location)
+        {
+            using (ResponseDataModel responseDataModel = new ResponseDataModel())
+            {
+                try
+                {
+                    responseDataModel.Data = await personContactBl.GetPhoneNumberCountByLocation(location);
+                }
+                catch (Exception ex)
+                {
+                    responseDataModel.HasError = true;
+                    responseDataModel.ErrorMessage = ex.Message;
+                }
+
+                return new JsonResult(responseDataModel);
+            }
+        }
+
         [HttpPost]
         [Route("CreateNewPersonContact")]
         public async Task<IActionResult> CreateNewPersonContact(CreateNewPersonContactModel model)

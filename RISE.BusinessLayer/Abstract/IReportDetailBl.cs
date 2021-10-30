@@ -10,6 +10,6 @@ namespace RISE.BusinessLayer.Abstract
     public interface IReportDetailBl
     {
         Task<List<ReportDetailDto>> GetReportDetailsByReportId(Guid reportId);
-        Task CreateReportByReportId(Guid reportId);
+        Task CreateReport(List<ReportDetailDto> model);
     }
 }
