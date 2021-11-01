@@ -16,13 +16,15 @@ namespace RISE.BusinessLayer.Concrete
     {
         private readonly IBaseUnitOfWork unitOfWork = new BaseUnitOfWork();
 
-        public async Task CreateNewPersonContact(PersonContactDto model)
+        public async Task<Guid> CreateNewPersonContact(PersonContactDto model)
         {
             try
             {
+                Guid uuid = Guid.NewGuid();
+
                 PersonContact personContact = new PersonContact()
                 {
-                    UUID = Guid.NewGuid(),
+                    UUID = uuid,
                     PersonId = model.PersonId,
                     PhoneNumber = model.PhoneNumber,
                     EmailAddress = model.EmailAddress,
@@ -32,6 +34,8 @@ namespace RISE.BusinessLayer.Concrete
                 unitOfWork.PersonContact.Insert(personContact);
 
                 await unitOfWork.PersonCommitAsync();
+
+                return uuid;
             }
             catch
             {
